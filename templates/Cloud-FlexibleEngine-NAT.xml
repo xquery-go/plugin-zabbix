@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2022-04-22T12:35:58Z</date>
+    <groups>
+        <group>
+            <name>Templates/Applications</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Cloud-FlexibleEngine-NAT2</template>
+            <name>Cloud-FlexibleEngine-NAT2</name>
+            <groups>
+                <group>
+                    <name>Templates/Applications</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Connection Count</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>Connection Count</name>
+                    <key>flexibleengine.nat.connections[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <applications>
+                        <application>
+                            <name>Connection Count</name>
+                        </application>
+                    </applications>
+                </item>
+            </items>
+            <macros>
+                <macro>
+                    <macro>{$ACCESS_KEY}</macro>
+                    <type>SECRET_TEXT</type>
+                </macro>
+                <macro>
+                    <macro>{$FILTER}</macro>
+                    <value>average</value>
+                </macro>
+                <macro>
+                    <macro>{$FRAME}</macro>
+                    <value>3600</value>
+                </macro>
+                <macro>
+                    <macro>{$INSTANCE_ID}</macro>
+                </macro>
+                <macro>
+                    <macro>{$PERIOD}</macro>
+                    <value>1</value>
+                </macro>
+                <macro>
+                    <macro>{$PROJECT_ID}</macro>
+                    <type>SECRET_TEXT</type>
+                </macro>
+                <macro>
+                    <macro>{$REGION}</macro>
+                </macro>
+                <macro>
+                    <macro>{$SECRET_KEY}</macro>
+                    <type>SECRET_TEXT</type>
+                </macro>
+            </macros>
+        </template>
+    </templates>
+</zabbix_export>
