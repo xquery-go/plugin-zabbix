@@ -25,6 +25,7 @@
                 <item>
                     <name>Connection Count</name>
                     <key>flexibleengine.nat.connections[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <units>Count</units>
                     <applications>
                         <application>
                             <name>Connection Count</name>
