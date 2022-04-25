@@ -1,4 +1,4 @@
-package manageresponse
+package akskrequest
 
 import (
 	"encoding/json"
@@ -15,11 +15,11 @@ type Response struct {
 			Value string `json:"value"`
 		} `json:"dimensions"`
 		Datapoints []struct {
-			Average   int   `json:"average"`
-			Min       int   `json:"min"`
-			Max       int   `json:"max"`
-			Sum       int   `json:"sum"`
-			Timestamp int64 `json:"timestamp"`
+			Average   float64 `json:"average"`
+			Min       float64 `json:"min"`
+			Max       float64 `json:"max"`
+			Sum       float64 `json:"sum"`
+			Timestamp int64   `json:"timestamp"`
 		} `json:"datapoints"`
 		Unit string `json:"unit"`
 	} `json:"metrics"`
@@ -31,21 +31,22 @@ type ErrorMsg struct {
 	RequestID    string `json:"request_id"`
 }
 
-func CalculateValue(responseRequest []byte, filter string) (int, error) {
+func CalculateValue(responseRequest []byte, filter string) (map[string]float64, error) {
+	allMetricValue := make(map[string]float64)
 	responseValue := Response{}
 	errorMsg := ErrorMsg{}
-	result := -1
-	var total int
+	result := -1.0
+	var total float64
 
 	json.Unmarshal(responseRequest, &responseValue)
 
 	if responseValue.Metrics == nil {
 		json.Unmarshal(responseRequest, &errorMsg)
-		return result, fmt.Errorf(strings.Split(errorMsg.ErrorMessage, ", canonical")[0])
+		return nil, fmt.Errorf(strings.Split(errorMsg.ErrorMessage, ", canonical")[0])
 	}
 
 	for _, metric := range responseValue.Metrics {
-		total = len(metric.Datapoints)
+		total = float64(len(metric.Datapoints))
 		for _, point := range metric.Datapoints {
 			if filter == "average" {
 				if result == -1 {
@@ -67,11 +68,12 @@ func CalculateValue(responseRequest []byte, filter string) (int, error) {
 				result += point.Sum
 			}
 		}
+		if filter == "average" && total != 0 {
+			result = result / total
+		}
+
+		allMetricValue[metric.MetricName] = result
 	}
 
-	if filter == "average" && total != 0 {
-		result = result / total
-	}
-
-	return result, nil
+	return allMetricValue, nil
 }

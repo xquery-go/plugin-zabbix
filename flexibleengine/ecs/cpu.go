@@ -1,4 +1,4 @@
-package nat
+package ecs
 
 import (
 	"fmt"
@@ -6,23 +6,25 @@ import (
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
 
-func CalculConnection(params []string) (result interface{}, err error) {
-	natID := params[3]
-	if natID == "" {
+func CalculCPU(params []string) (result interface{}, err error) {
+	ecsID := params[3]
+	if ecsID == "" {
 		return nil, fmt.Errorf("Need to specify $INSTANCE_ID option.")
 	}
 
 	dimension := map[string]interface{}{
-		"name":  "nat_gateway_id",
-		"value": natID,
+		"name":  "instance_id",
+		"value": ecsID,
 	}
-	namespace := "SYS.NAT"
-	metricsList := []string{"snat_connection"}
+	namespace := "SYS.ECS"
+	metricsList := []string{"cpu_util"}
 
 	value, err := akskrequest.ExecuteProcess(params, dimension, namespace, metricsList)
 	if err != nil {
 		return nil, err
 	}
 
-	return int(value[metricsList[0]]), nil
+	valueTruncate := float64(int(value[metricsList[0]]*100)) / 100
+
+	return valueTruncate, nil
 }
