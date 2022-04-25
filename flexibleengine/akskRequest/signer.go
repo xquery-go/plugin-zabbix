@@ -304,3 +304,31 @@ func (s *Signer) MakeRequest(projectID string, region string, frame int, period 
 
 	return body, nil
 }
+
+
+func (s *Signer) MakeRequestGET(projectID string, region string, service string, url string) ([]byte, error) {
+	
+	//Make request with body
+	r, _ := http.NewRequest("GET", url, ioutil.NopCloser(bytes.NewBuffer([]byte(""))))
+
+	//Add header parameters
+	r.Header.Add("Content-Type", "application/json")
+	r.Header.Add("Accept", "application/json")
+	r.Header.Add("X-OpenStack-Nova-API-Version", "2.26")
+	r.Header.Add("X-Project-Id", projectID)
+	s.Sign(r, region, service)
+
+	client := http.DefaultClient
+	resp, err := client.Do(r)
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	return body, nil
+}
