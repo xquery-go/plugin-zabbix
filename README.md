@@ -21,7 +21,7 @@ cp -r plugin-zabbix-fe/flexibleengine zabbix-agent2/src/go/plugins/flexibleengin
 
 And modify the three files in zabbix-agent2/src/go/plugins (**plugins_linux.go**, **plugins_windows.go**, **plugins_darwin.go**) by adding this line in import list:
 
-_ "zabbix.com/plugins/flexibleengine/nat"
+_ "zabbix.com/plugins/flexibleengine"
 
 
 ## Build Agent

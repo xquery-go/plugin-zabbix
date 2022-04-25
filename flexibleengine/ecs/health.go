@@ -23,13 +23,6 @@ type Response struct {
 	} `json:"server"`
 }
 
-type ErrorMsg struct {
-	ItemNotFound struct {
-		Message string `json:"message"`
-		Code    int    `json:"code"`
-	} `json:"itemNotFound"`
-}
-
 func CalculHealth(params []string) (interface{}, error) {
 	if len(params) != 5 {
 		return nil, errors.New("Wrong parameters.")

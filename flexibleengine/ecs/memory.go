@@ -6,7 +6,7 @@ import (
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
 
-func CalculCPU(params []string) (result interface{}, err error) {
+func CalculMemory(params []string) (result interface{}, err error) {
 	ecsID := params[3]
 	if ecsID == "" {
 		return nil, fmt.Errorf("Need to specify $INSTANCE_ID option.")
@@ -16,13 +16,15 @@ func CalculCPU(params []string) (result interface{}, err error) {
 		"name":  "instance_id",
 		"value": ecsID,
 	}
-	namespace := "SYS.ECS"
-	metricsList := []string{"cpu_util"}
+	namespace := "AGT.ECS"
+	metricsList := []string{"mem_usedPercent"}
 
 	value, err := akskrequest.ExecuteProcess(params, dimension, namespace, metricsList)
 	if err != nil {
 		return nil, err
 	}
 
-	return value[metricsList[0]], nil
+	valueTruncate := float64(int(value[metricsList[0]]*100)) / 100
+
+	return valueTruncate, nil
 }

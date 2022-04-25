@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.0</version>
-    <date>2022-04-22T12:35:58Z</date>
+    <date>2022-04-25T11:44:20Z</date>
     <groups>
         <group>
             <name>Templates/Applications</name>
@@ -9,8 +9,8 @@
     </groups>
     <templates>
         <template>
-            <template>Cloud-FlexibleEngine-NAT2</template>
-            <name>Cloud-FlexibleEngine-NAT2</name>
+            <template>Cloud-FlexibleEngine-NAT</template>
+            <name>Cloud-FlexibleEngine-NAT</name>
             <groups>
                 <group>
                     <name>Templates/Applications</name>
@@ -40,7 +40,6 @@
                 </macro>
                 <macro>
                     <macro>{$FILTER}</macro>
-                    <value>average</value>
                 </macro>
                 <macro>
                     <macro>{$FRAME}</macro>
@@ -55,7 +54,6 @@
                 </macro>
                 <macro>
                     <macro>{$PROJECT_ID}</macro>
-                    <type>SECRET_TEXT</type>
                 </macro>
                 <macro>
                     <macro>{$REGION}</macro>
@@ -67,4 +65,19 @@
             </macros>
         </template>
     </templates>
+    <graphs>
+        <graph>
+            <name>Connection</name>
+            <graph_items>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <color>1A7C11</color>
+                    <item>
+                        <host>Cloud-FlexibleEngine-NAT</host>
+                        <key>flexibleengine.nat.connections[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
 </zabbix_export>
