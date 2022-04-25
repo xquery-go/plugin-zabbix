@@ -22,6 +22,12 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 	case "flexibleengine.ecs.cpu":
 		result, err = ecs.CalculCPU(params)
 		return
+	case "flexibleengine.ecs.diskfree":
+		result, err = ecs.CalculDiskFree(params)
+		return
+	case "flexibleengine.ecs.diskused":
+		result, err = ecs.CalculDiskUsedPercent(params)
+		return
 	default:
 		return nil, fmt.Errorf("Invalid KEY")
 	}
@@ -31,5 +37,7 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 func init() {
 	plugin.RegisterMetrics(&impl, "FlexibleEngineNat",
 		"flexibleengine.nat.connections", "Returns connection count.",
-		"flexibleengine.ecs.cpu", "Returns CPU value.")
+		"flexibleengine.ecs.cpu", "Returns CPU value.",
+		"flexibleengine.ecs.diskfree", "Returns disk available space.",
+		"flexibleengine.ecs.diskused", "Returns disk usage.")
 }
