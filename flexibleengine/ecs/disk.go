@@ -1,12 +1,16 @@
 package ecs
 
 import (
+	"errors"
 	"fmt"
 
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
 
 func CalculDisk(params []string, metric string) (result interface{}, err error) {
+	if len(params) != 8 {
+		return nil, errors.New("Wrong parameters.")
+	}
 	ecsID := params[3]
 	if ecsID == "" {
 		return nil, fmt.Errorf("Need to specify $INSTANCE_ID option.")
@@ -23,8 +27,6 @@ func CalculDisk(params []string, metric string) (result interface{}, err error) 
 	if err != nil {
 		return nil, err
 	}
-
-	//valueTruncate := float64(int(value[metricsList[0]]*100)) / 100
 
 	return value[metricsList[0]], nil
 }

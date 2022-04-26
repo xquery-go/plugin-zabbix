@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.0</version>
-    <date>2022-04-25T11:44:11Z</date>
+    <date>2022-04-26T12:45:51Z</date>
     <groups>
         <group>
             <name>Templates/Applications</name>
@@ -56,7 +56,7 @@
                 </item>
                 <item>
                     <name>Disk free</name>
-                    <key>flexibleengine.ecs.diskfree[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.disk.free[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>GB</units>
                     <applications>
@@ -67,7 +67,7 @@
                 </item>
                 <item>
                     <name>Disk read</name>
-                    <key>flexibleengine.ecs.diskread[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.disk.read[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>B/s</units>
                     <applications>
@@ -78,7 +78,7 @@
                 </item>
                 <item>
                     <name>Disk request read</name>
-                    <key>flexibleengine.ecs.diskrequestread[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.disk.requestread[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>ops</units>
                     <applications>
@@ -89,7 +89,7 @@
                 </item>
                 <item>
                     <name>Disk request write</name>
-                    <key>flexibleengine.ecs.diskrequestwrite[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.disk.requestwrite[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>ops</units>
                     <applications>
@@ -100,7 +100,7 @@
                 </item>
                 <item>
                     <name>Disk used</name>
-                    <key>flexibleengine.ecs.diskused[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.disk.used[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
                     <applications>
@@ -111,7 +111,7 @@
                 </item>
                 <item>
                     <name>Disk write</name>
-                    <key>flexibleengine.ecs.diskwrite[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.disk.write[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>B/s</units>
                     <applications>
@@ -144,7 +144,7 @@
                 </item>
                 <item>
                     <name>Network inband incoming</name>
-                    <key>flexibleengine.ecs.networkincominginband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.network.incominginband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>B/s</units>
                     <applications>
@@ -155,7 +155,7 @@
                 </item>
                 <item>
                     <name>Network outband incoming</name>
-                    <key>flexibleengine.ecs.networkincomingoutband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.network.incomingoutband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>B/s</units>
                     <applications>
@@ -166,7 +166,7 @@
                 </item>
                 <item>
                     <name>Network inband outgoing</name>
-                    <key>flexibleengine.ecs.networkoutgoinginband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.network.outgoinginband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <units>B/s</units>
                     <applications>
                         <application>
@@ -176,7 +176,7 @@
                 </item>
                 <item>
                     <name>Network outband outgoing</name>
-                    <key>flexibleengine.ecs.networkoutgoingoutband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.network.outgoingoutband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>B/s</units>
                     <applications>
@@ -187,7 +187,7 @@
                 </item>
                 <item>
                     <name>Process idle</name>
-                    <key>flexibleengine.ecs.procidle[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.proc.idle[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>process</units>
                     <applications>
@@ -198,7 +198,7 @@
                 </item>
                 <item>
                     <name>Process runnning</name>
-                    <key>flexibleengine.ecs.procrunning[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.proc.running[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>process</units>
                     <applications>
@@ -209,7 +209,7 @@
                 </item>
                 <item>
                     <name>Process sleeping</name>
-                    <key>flexibleengine.ecs.procsleeping[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.proc.sleeping[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>process</units>
                     <applications>
@@ -220,7 +220,7 @@
                 </item>
                 <item>
                     <name>Process total</name>
-                    <key>flexibleengine.ecs.proctotal[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.proc.total[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>process</units>
                     <applications>
@@ -231,7 +231,7 @@
                 </item>
                 <item>
                     <name>Process zombie</name>
-                    <key>flexibleengine.ecs.proczombie[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.proc.zombie[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>process</units>
                     <applications>
@@ -313,20 +313,12 @@
             <name>Disk</name>
             <graph_items>
                 <graph_item>
-                    <sortorder>1</sortorder>
-                    <color>1A7C11</color>
-                    <item>
-                        <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.diskfree[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
-                    </item>
-                </graph_item>
-                <graph_item>
                     <sortorder>2</sortorder>
                     <color>F63100</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.diskused[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.disk.used[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -339,7 +331,7 @@
                     <color>1A7C11</color>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.diskread[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.disk.read[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -348,7 +340,7 @@
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.diskrequestread[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.disk.requestread[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -357,7 +349,7 @@
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.diskrequestwrite[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.disk.requestwrite[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -365,7 +357,7 @@
                     <color>A54F10</color>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.diskwrite[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.disk.write[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -391,7 +383,7 @@
                     <color>1A7C11</color>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.networkincominginband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.network.incominginband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -399,7 +391,7 @@
                     <color>F63100</color>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.networkoutgoinginband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.network.outgoinginband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -407,7 +399,7 @@
                     <color>2774A4</color>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.networkincomingoutband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.network.incomingoutband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -415,7 +407,7 @@
                     <color>A54F10</color>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.networkoutgoingoutband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.network.outgoingoutband[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -428,7 +420,7 @@
                     <color>1A7C11</color>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.procidle[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.proc.idle[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -436,7 +428,7 @@
                     <color>F63100</color>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.procrunning[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.proc.running[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -444,7 +436,7 @@
                     <color>2774A4</color>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.procsleeping[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.proc.sleeping[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -452,7 +444,7 @@
                     <color>A54F10</color>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.proctotal[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.proc.total[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -460,7 +452,7 @@
                     <color>FC6EA3</color>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.proczombie[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.proc.zombie[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
             </graph_items>

@@ -1,12 +1,16 @@
 package nat
 
 import (
+	"errors"
 	"fmt"
 
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
 
 func CalculConnection(params []string) (result interface{}, err error) {
+	if len(params) != 8 {
+		return nil, errors.New("Wrong parameters.")
+	}
 	natID := params[3]
 	if natID == "" {
 		return nil, fmt.Errorf("Need to specify $INSTANCE_ID option.")

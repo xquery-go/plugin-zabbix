@@ -1,15 +1,11 @@
 package akskrequest
 
 import (
-	"errors"
 	"fmt"
 	"strconv"
 )
 
 func ExecuteProcess(params []string, dimension map[string]interface{}, namespace string, metricsList []string) (map[string]float64, error) {
-	if len(params) != 8 {
-		return nil, errors.New("Wrong parameters.")
-	}
 
 	accessKey := params[0]
 	if accessKey == "" {
@@ -59,4 +55,3 @@ func ExecuteProcess(params []string, dimension map[string]interface{}, namespace
 
 	return value, nil
 }
-

@@ -1,4 +1,4 @@
-package ecs
+package rds
 
 import (
 	"errors"
@@ -7,28 +7,29 @@ import (
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
 
-func CalculNetwork(params []string, metric string) (result interface{}, err error) {
-	if len(params) != 8 {
+func CalculTransaction(params []string) (result interface{}, err error) {
+	if len(params) != 10 {
 		return nil, errors.New("Wrong parameters.")
 	}
-	ecsID := params[3]
-	if ecsID == "" {
+	rdsID := params[3]
+	if rdsID == "" {
 		return nil, fmt.Errorf("Need to specify $INSTANCE_ID option.")
+	}
+	rdsType := params[8]
+	if rdsType == "" {
+		return nil, fmt.Errorf("Need to specify $TYPE option.")
 	}
 
 	dimension := map[string]interface{}{
-		"name":  "instance_id",
-		"value": ecsID,
+		"name":  "rds_" + rdsType + "_id",
+		"value": rdsID,
 	}
-	namespace := "SYS.ECS"
-	metricsList := []string{metric}
+	namespace := "SYS.RDS"
+	metricsList := []string{"rds009_tps"}
 
 	value, err := akskrequest.ExecuteProcess(params, dimension, namespace, metricsList)
 	if err != nil {
 		return nil, err
-	}
-	if value[metricsList[0]] == -1.0 {
-		value[metricsList[0]] = 0.0
 	}
 
 	return value[metricsList[0]], nil
