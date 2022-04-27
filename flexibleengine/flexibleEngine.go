@@ -5,6 +5,7 @@ import (
 
 	"zabbix.com/pkg/plugin"
 	"zabbix.com/plugins/flexibleengine/ecs"
+	"zabbix.com/plugins/flexibleengine/eip"
 	"zabbix.com/plugins/flexibleengine/evs"
 	"zabbix.com/plugins/flexibleengine/nat"
 	"zabbix.com/plugins/flexibleengine/rds"
@@ -162,6 +163,13 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 	case "flexibleengine.evs.status":
 		result, err = evs.CalculStatus(params)
 		return
+	case "flexibleengine.eip.traffic.downstream":
+		result, err = eip.CalculTraffic(params, "downstream_bandwidth")
+		return
+	case "flexibleengine.eip.traffic.upstream":
+		result, err = eip.CalculTraffic(params, "upstream_bandwidth")
+		return
+
 	default:
 		return nil, fmt.Errorf("Invalid KEY")
 	}
@@ -217,5 +225,7 @@ func init() {
 		"flexibleengine.evs.diskio.queuelength", "Returns average queue length.",
 		"flexibleengine.evs.diskio.ioutil", "Returns disk I/O utilization.",
 		"flexibleengine.evs.diskio.iosvctm", "Returns disk I/O service time.",
-		"flexibleengine.evs.status", "Returns status evs.")
+		"flexibleengine.evs.status", "Returns status evs.",
+		"flexibleengine.eip.traffic.downstream", "Returns downstream bandwith.",
+		"flexibleengine.eip.traffic.upstream", "Returns upstream bandwith.")
 }
