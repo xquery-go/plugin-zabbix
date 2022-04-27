@@ -54,3 +54,5 @@ First, go to your Zabbix application in *Configuration > Templates*. Choose the 
 After, you must change **MACROS values** in the template for this go to *MACROS menu* and set your value for {$ACCESS_KEY}, {$PROJECT_ID}, {$SECRET_KEY}. At this, moment don't set the {$INSTANCE_ID} value.
 
 Once your template created, you can create a new host in *Configuration > Hosts*. In *Templates menu* choose **Cloud-FlexibleEngine-NAT** template and in *Macros menu*, go to *Inherited and host macros* and modify the value for {$INSTANCE_ID} with your **NAT ID**. 
+
+For template EVS, you must define {$INSTANCE_ID} value which is the ID of the EVS and define {$DISK_NAME} which is the ID of the ECS with the of disk device after like this: 93503d16-53a0-41ec-985f-ae6eee18a3b6-vda

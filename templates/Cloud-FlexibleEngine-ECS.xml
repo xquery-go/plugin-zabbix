@@ -67,7 +67,7 @@
                 </item>
                 <item>
                     <name>Disk read</name>
-                    <key>flexibleengine.ecs.disk.read[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.diskio.read[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>B/s</units>
                     <applications>
@@ -78,7 +78,7 @@
                 </item>
                 <item>
                     <name>Disk request read</name>
-                    <key>flexibleengine.ecs.disk.requestread[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.diskio.requestread[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>ops</units>
                     <applications>
@@ -89,7 +89,7 @@
                 </item>
                 <item>
                     <name>Disk request write</name>
-                    <key>flexibleengine.ecs.disk.requestwrite[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.diskio.requestwrite[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>ops</units>
                     <applications>
@@ -111,7 +111,7 @@
                 </item>
                 <item>
                     <name>Disk write</name>
-                    <key>flexibleengine.ecs.disk.write[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.ecs.diskio.write[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
                     <units>B/s</units>
                     <applications>

@@ -7,7 +7,7 @@ import (
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
 
-func CalculConnection(params []string) (result interface{}, err error) {
+func CalculConnection(params []string, metric string) (result interface{}, err error) {
 	if len(params) != 8 {
 		return nil, errors.New("Wrong parameters.")
 	}
@@ -21,7 +21,7 @@ func CalculConnection(params []string) (result interface{}, err error) {
 		"value": natID,
 	}
 	namespace := "SYS.NAT"
-	metricsList := []string{"snat_connection"}
+	metricsList := []string{metric}
 
 	value, err := akskrequest.ExecuteProcess(params, dimension, namespace, metricsList)
 	if err != nil {

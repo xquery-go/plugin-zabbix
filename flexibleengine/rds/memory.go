@@ -7,7 +7,7 @@ import (
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
 
-func CalculMemory(params []string) (result interface{}, err error) {
+func CalculMemory(params []string, metric string) (result interface{}, err error) {
 	if len(params) != 10 {
 		return nil, errors.New("Wrong parameters.")
 	}
@@ -38,7 +38,7 @@ func CalculMemory(params []string) (result interface{}, err error) {
 		"value": rdsID,
 	}
 	namespace := "SYS.RDS"
-	metricsList := []string{"rds002_mem_util"}
+	metricsList := []string{metric}
 
 	value, err := akskrequest.ExecuteProcess(params, dimension, namespace, metricsList)
 	if err != nil {

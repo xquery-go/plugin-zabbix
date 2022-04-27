@@ -7,7 +7,7 @@ import (
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
 
-func CalculTransaction(params []string) (result interface{}, err error) {
+func CalculTransaction(params []string, metric string) (result interface{}, err error) {
 	if len(params) != 10 {
 		return nil, errors.New("Wrong parameters.")
 	}
@@ -25,7 +25,7 @@ func CalculTransaction(params []string) (result interface{}, err error) {
 		"value": rdsID,
 	}
 	namespace := "SYS.RDS"
-	metricsList := []string{"rds009_tps"}
+	metricsList := []string{metric}
 
 	value, err := akskrequest.ExecuteProcess(params, dimension, namespace, metricsList)
 	if err != nil {

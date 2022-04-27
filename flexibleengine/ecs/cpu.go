@@ -7,7 +7,7 @@ import (
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
 
-func CalculCPU(params []string) (result interface{}, err error) {
+func CalculCPU(params []string, metric string) (result interface{}, err error) {
 	if len(params) != 8 {
 		return nil, errors.New("Wrong parameters.")
 	}
@@ -21,7 +21,7 @@ func CalculCPU(params []string) (result interface{}, err error) {
 		"value": ecsID,
 	}
 	namespace := "SYS.ECS"
-	metricsList := []string{"cpu_util"}
+	metricsList := []string{metric}
 
 	value, err := akskrequest.ExecuteProcess(params, dimension, namespace, metricsList)
 	if err != nil {

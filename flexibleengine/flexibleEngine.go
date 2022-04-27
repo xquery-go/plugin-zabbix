@@ -5,6 +5,7 @@ import (
 
 	"zabbix.com/pkg/plugin"
 	"zabbix.com/plugins/flexibleengine/ecs"
+	"zabbix.com/plugins/flexibleengine/evs"
 	"zabbix.com/plugins/flexibleengine/nat"
 	"zabbix.com/plugins/flexibleengine/rds"
 )
@@ -18,10 +19,10 @@ var impl Plugin
 func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider) (result interface{}, err error) {
 	switch key {
 	case "flexibleengine.nat.connections":
-		result, err = nat.CalculConnection(params)
+		result, err = nat.CalculConnection(params, "snat_connection")
 		return
 	case "flexibleengine.ecs.cpu":
-		result, err = ecs.CalculCPU(params)
+		result, err = ecs.CalculCPU(params, "cpu_util")
 		return
 	case "flexibleengine.ecs.disk.free":
 		result, err = ecs.CalculDisk(params, "SlAsH_disk_free")
@@ -29,23 +30,23 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 	case "flexibleengine.ecs.disk.used":
 		result, err = ecs.CalculDisk(params, "SlAsH_disk_usedPercent")
 		return
-	case "flexibleengine.ecs.disk.read":
+	case "flexibleengine.ecs.diskio.read":
 		result, err = ecs.CalculDiskIO(params, "disk_read_bytes_rate")
 		return
-	case "flexibleengine.ecs.disk.write":
+	case "flexibleengine.ecs.diskio.write":
 		result, err = ecs.CalculDiskIO(params, "disk_write_bytes_rate")
 		return
-	case "flexibleengine.ecs.disk.requestread":
+	case "flexibleengine.ecs.diskio.requestread":
 		result, err = ecs.CalculDiskIO(params, "disk_read_requests_rate")
 		return
-	case "flexibleengine.ecs.disk.requestwrite":
+	case "flexibleengine.ecs.diskio.requestwrite":
 		result, err = ecs.CalculDiskIO(params, "disk_write_requests_rate")
 		return
 	case "flexibleengine.ecs.health":
 		result, err = ecs.CalculHealth(params)
 		return
 	case "flexibleengine.ecs.memory":
-		result, err = ecs.CalculMemory(params)
+		result, err = ecs.CalculMemory(params, "mem_usedPercent")
 		return
 	case "flexibleengine.ecs.network.incominginband":
 		result, err = ecs.CalculNetwork(params, "network_incoming_bytes_rate_inband")
@@ -83,17 +84,17 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 	case "flexibleengine.rds.cpu":
 		result, err = rds.CalculCPU(params)
 		return
-	case "flexibleengine.rds.disk.read":
+	case "flexibleengine.rds.diskio.read":
 		result, err = rds.CalculDiskIO(params, "rds049_disk_read_throughput")
 		return
-	case "flexibleengine.rds.disk.write":
+	case "flexibleengine.rds.diskio.write":
 		result, err = rds.CalculDiskIO(params, "rds050_disk_write_throughput")
 		return
 	case "flexibleengine.rds.health":
 		result, err = rds.CalculHealth(params)
 		return
 	case "flexibleengine.rds.memory":
-		result, err = rds.CalculMemory(params)
+		result, err = rds.CalculMemory(params, "rds002_mem_util")
 		return
 	case "flexibleengine.rds.network.input":
 		result, err = rds.CalculNetwork(params, "rds004_bytes_in")
@@ -102,10 +103,10 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 		result, err = rds.CalculNetwork(params, "rds005_bytes_out")
 		return
 	case "flexibleengine.rds.storage":
-		result, err = rds.CalculStorage(params)
+		result, err = rds.CalculStorage(params, "rds039_disk_util")
 		return
 	case "flexibleengine.rds.transaction":
-		result, err = rds.CalculTransaction(params)
+		result, err = rds.CalculTransaction(params, "rds009_tps")
 		return
 	case "flexibleengine.rds.querie":
 		result, err = rds.CalculQuerie(params, "rds008_qps")
@@ -131,6 +132,36 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 	case "flexibleengine.rds.querie.update":
 		result, err = rds.CalculQuerie(params, "rds034_comdml_upd_count")
 		return
+	case "flexibleengine.evs.diskio.read":
+		result, err = evs.CalculDiskIO(params, "disk_device_read_bytes_rate")
+		return
+	case "flexibleengine.evs.diskio.write":
+		result, err = evs.CalculDiskIO(params, "disk_device_write_bytes_rate")
+		return
+	case "flexibleengine.evs.diskio.requestread":
+		result, err = evs.CalculDiskIO(params, "disk_device_read_requests_rate")
+		return
+	case "flexibleengine.evs.diskio.requestwrite":
+		result, err = evs.CalculDiskIO(params, "disk_device_write_requests_rate")
+		return
+	case "flexibleengine.evs.diskio.readoperation":
+		result, err = evs.CalculDiskIO(params, "disk_device_read_bytes_per_operation")
+		return
+	case "flexibleengine.evs.diskio.readawait":
+		result, err = evs.CalculDiskIO(params, "disk_device_read_await")
+		return
+	case "flexibleengine.evs.diskio.queuelength":
+		result, err = evs.CalculDiskIO(params, "disk_device_queue_length")
+		return
+	case "flexibleengine.evs.diskio.ioutil":
+		result, err = evs.CalculDiskIO(params, "disk_device_io_util")
+		return
+	case "flexibleengine.evs.diskio.iosvctm":
+		result, err = evs.CalculDiskIO(params, "disk_device_io_svctm")
+		return
+	case "flexibleengine.evs.status":
+		result, err = evs.CalculStatus(params)
+		return
 	default:
 		return nil, fmt.Errorf("Invalid KEY")
 	}
@@ -143,10 +174,10 @@ func init() {
 		"flexibleengine.ecs.cpu", "Returns CPU value.",
 		"flexibleengine.ecs.disk.free", "Returns disk available space.",
 		"flexibleengine.ecs.disk.used", "Returns disk usage.",
-		"flexibleengine.ecs.disk.read", "Returns disk read bytes rate.",
-		"flexibleengine.ecs.disk.write", "Returns disk write bytes rate.",
-		"flexibleengine.ecs.disk.requestread", "Returns disk read ops.",
-		"flexibleengine.ecs.disk.requestwrite", "Returns disk write ops.",
+		"flexibleengine.ecs.diskio.read", "Returns disk read bytes rate.",
+		"flexibleengine.ecs.diskio.write", "Returns disk write bytes rate.",
+		"flexibleengine.ecs.diskio.requestread", "Returns disk read ops.",
+		"flexibleengine.ecs.diskio.requestwrite", "Returns disk write ops.",
 		"flexibleengine.ecs.health", "Returns health.",
 		"flexibleengine.ecs.memory", "Returns memory used.",
 		"flexibleengine.ecs.network.incominginband", "Returns network inband incoming bytes rate.",
@@ -161,8 +192,8 @@ func init() {
 		"flexibleengine.ecs.status", "Returns status ecs.",
 		"flexibleengine.rds.connections", "Returns connection count.",
 		"flexibleengine.rds.cpu", "Returns CPU value.",
-		"flexibleengine.rds.disk.read", "Returns disk read throughput.",
-		"flexibleengine.rds.disk.write", "Returns disk write throughput.",
+		"flexibleengine.rds.diskio.read", "Returns disk read throughput.",
+		"flexibleengine.rds.diskio.write", "Returns disk write throughput.",
 		"flexibleengine.rds.health", "Returns health.",
 		"flexibleengine.rds.memory", "Returns memory used.",
 		"flexibleengine.rds.network.input", "Returns network input throughput.",
@@ -176,5 +207,15 @@ func init() {
 		"flexibleengine.rds.querie.replace", "Returns replace statements per second.",
 		"flexibleengine.rds.querie.replaceselection", "Returns replace_selection statements per second.",
 		"flexibleengine.rds.querie.select", "Returns select statements per second.",
-		"flexibleengine.rds.querie.update", "Returns update statements per second.")
+		"flexibleengine.rds.querie.update", "Returns update statements per second.",
+		"flexibleengine.evs.diskio.read", "Returns disk read bytes rate.",
+		"flexibleengine.evs.diskio.write", "Returns disk write bytes rate.",
+		"flexibleengine.evs.diskio.requestread", "Returns disk read ops.",
+		"flexibleengine.evs.diskio.requestwrite", "Returns disk write ops.",
+		"flexibleengine.evs.diskio.readoperation", "Returns avg disk read bytes per operation.",
+		"flexibleengine.evs.diskio.readawait", "Returns disk read await.",
+		"flexibleengine.evs.diskio.queuelength", "Returns average queue length.",
+		"flexibleengine.evs.diskio.ioutil", "Returns disk I/O utilization.",
+		"flexibleengine.evs.diskio.iosvctm", "Returns disk I/O service time.",
+		"flexibleengine.evs.status", "Returns status evs.")
 }

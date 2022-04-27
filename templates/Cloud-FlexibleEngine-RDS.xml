@@ -69,7 +69,7 @@
                 </item>
                 <item>
                     <name>Disk read</name>
-                    <key>flexibleengine.rds.disk.read[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER},{$TYPE},{$ENGINE}]</key>
+                    <key>flexibleengine.rds.diskio.read[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER},{$TYPE},{$ENGINE}]</key>
                     <value_type>FLOAT</value_type>
                     <units>B/s</units>
                     <applications>
@@ -80,7 +80,7 @@
                 </item>
                 <item>
                     <name>Disk write</name>
-                    <key>flexibleengine.rds.disk.write[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER},{$TYPE},{$ENGINE}]</key>
+                    <key>flexibleengine.rds.diskio.write[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER},{$TYPE},{$ENGINE}]</key>
                     <value_type>FLOAT</value_type>
                     <units>B/s</units>
                     <applications>

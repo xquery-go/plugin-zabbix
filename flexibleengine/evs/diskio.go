@@ -1,4 +1,4 @@
-package ecs
+package evs
 
 import (
 	"errors"
@@ -7,20 +7,20 @@ import (
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
 
-func CalculMemory(params []string, metric string) (result interface{}, err error) {
+func CalculDiskIO(params []string, metric string) (result interface{}, err error) {
 	if len(params) != 8 {
 		return nil, errors.New("Wrong parameters.")
 	}
-	ecsID := params[3]
-	if ecsID == "" {
-		return nil, fmt.Errorf("Need to specify $INSTANCE_ID option.")
+	diskName := params[3]
+	if diskName == "" {
+		return nil, fmt.Errorf("Need to specify $DISK_NAME option.")
 	}
 
 	dimension := map[string]interface{}{
-		"name":  "instance_id",
-		"value": ecsID,
+		"name":  "disk_name",
+		"value": diskName,
 	}
-	namespace := "AGT.ECS"
+	namespace := "SYS.EVS"
 	metricsList := []string{metric}
 
 	value, err := akskrequest.ExecuteProcess(params, dimension, namespace, metricsList)
@@ -28,7 +28,5 @@ func CalculMemory(params []string, metric string) (result interface{}, err error
 		return nil, err
 	}
 
-	valueTruncate := float64(int(value[metricsList[0]]*100)) / 100
-
-	return valueTruncate, nil
+	return value[metricsList[0]], nil
 }
