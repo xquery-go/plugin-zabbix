@@ -259,10 +259,54 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 	case "flexibleengine.dds.health":
 		result, err = dds.CalculHealth(params)
 		return
+	case "flexibleengine.css.cpu":
+		result, err = css.CalculCPU(params, "max_cpu_usage")
+		return
+	case "flexibleengine.css.indices.doccount":
+		result, err = css.CalculIndices(params, "docs_count")
+		return
+	case "flexibleengine.css.indices.delete":
+		result, err = css.CalculIndices(params, "docs_deleted_count")
+		return
+	case "flexibleengine.css.indices.count":
+		result, err = css.CalculIndices(params, "indices_count")
+		return
+	case "flexibleengine.css.indices.totalshards":
+		result, err = css.CalculIndices(params, "total_shards_count")
+		return
+	case "flexibleengine.css.indices.primaryshards":
+		result, err = css.CalculIndices(params, "primary_shards_count")
+		return
+	case "flexibleengine.css.memory":
+		result, err = css.CalculMemory(params, "max_jvm_heap_usage")
+		return
+	case "flexibleengine.css.nodes.count":
+		result, err = css.CalculNodes(params, "nodes_count")
+		return
+	case "flexibleengine.css.nodes.data":
+		result, err = css.CalculNodes(params, "data_nodes_count")
+		return
+	case "flexibleengine.css.nodes.coordinating":
+		result, err = css.CalculNodes(params, "coordinating_nodes_count")
+		return
+	case "flexibleengine.css.nodes.master":
+		result, err = css.CalculNodes(params, "master_nodes_count")
+		return
+	case "flexibleengine.css.nodes.ingest":
+		result, err = css.CalculNodes(params, "ingest_nodes_count")
+		return
+	case "flexibleengine.css.storage.total":
+		result, err = css.CalculStorage(params, "total_fs_size")
+		return
+	case "flexibleengine.css.storage.free":
+		result, err = css.CalculStorage(params, "free_fs_size")
+		return
+	case "flexibleengine.css.status":
+		result, err = css.CalculStatus(params)
+		return
 	default:
 		return nil, fmt.Errorf("Invalid KEY")
 	}
-
 }
 
 func init() {
@@ -345,5 +389,20 @@ func init() {
 		"flexibleengine.dds.network.out", "Returns network output throughput.",
 		"flexibleengine.dds.network.in", "Returns network input throughput.",
 		"flexibleengine.dds.storage", "Returns storage utilization.",
-		"flexibleengine.dds.health", "Returns health.")
+		"flexibleengine.dds.health", "Returns health.",
+		"flexibleengine.css.cpu", "Returns max CPU usage.",
+		"flexibleengine.css.indices.doccount", "Returns documents count.",
+		"flexibleengine.css.indices.delete", "Returns deleted documents count.",
+		"flexibleengine.css.indices.count", "Returns indices count.",
+		"flexibleengine.css.indices.totalshards", "Returns total shards count.",
+		"flexibleengine.css.indices.primaryshards", "Returns primary shards count.",
+		"flexibleengine.css.memory", "Returns max JVM heap usage.",
+		"flexibleengine.css.nodes.count", "Returns nodes count.",
+		"flexibleengine.css.nodes.data", "Returns data nodes count.",
+		"flexibleengine.css.nodes.coordinating", "Returns coordination nodes.",
+		"flexibleengine.css.nodes.master", "Returns master nodes.",
+		"flexibleengine.css.nodes.ingest", "Returns client nodes.",
+		"flexibleengine.css.storage.total", "Returns total storage.",
+		"flexibleengine.css.storage.free", "Returns free storage.",
+		"flexibleengine.css.status", "Returns status css.")
 }

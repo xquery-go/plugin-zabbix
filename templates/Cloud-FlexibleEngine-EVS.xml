@@ -137,7 +137,7 @@
                 </item>
                 <item>
                     <name>Status ALL EVS</name>
-                    <key>flexibleengine.evs.status[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$REGION}]</key>
+                    <key>flexibleengine.evs.status[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$REGION},]</key>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
                     <applications>

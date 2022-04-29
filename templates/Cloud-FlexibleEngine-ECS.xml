@@ -253,7 +253,7 @@
                 </item>
                 <item>
                     <name>Status ALL ECS</name>
-                    <key>flexibleengine.ecs.status[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$REGION}]</key>
+                    <key>flexibleengine.ecs.status[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$REGION},]</key>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
                     <applications>
