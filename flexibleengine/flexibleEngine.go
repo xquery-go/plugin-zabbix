@@ -4,6 +4,8 @@ import (
 	"fmt"
 
 	"zabbix.com/pkg/plugin"
+	"zabbix.com/plugins/flexibleengine/css"
+	"zabbix.com/plugins/flexibleengine/dds"
 	"zabbix.com/plugins/flexibleengine/ecs"
 	"zabbix.com/plugins/flexibleengine/eip"
 	"zabbix.com/plugins/flexibleengine/elb"
@@ -230,6 +232,33 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 	case "flexibleengine.elb.health":
 		result, err = elb.CalculHealth(params)
 		return
+	case "flexibleengine.dds.cpu":
+		result, err = dds.CalculCPU(params, "mongo031_cpu_usage")
+		return
+	case "flexibleengine.dds.diskio.read":
+		result, err = dds.CalculDiskIO(params, "mongo037_read_throughput")
+		return
+	case "flexibleengine.dds.diskio.write":
+		result, err = dds.CalculDiskIO(params, "mongo038_write_throughput")
+		return
+	case "flexibleengine.dds.iops":
+		result, err = dds.CalculIOPS(params, "mongo036_iops")
+		return
+	case "flexibleengine.dds.memory":
+		result, err = dds.CalculMemory(params, "mongo032_mem_usage")
+		return
+	case "flexibleengine.dds.network.out":
+		result, err = dds.CalculNetwork(params, "mongo033_bytes_out")
+		return
+	case "flexibleengine.dds.network.in":
+		result, err = dds.CalculNetwork(params, "mongo034_bytes_in")
+		return
+	case "flexibleengine.dds.storage":
+		result, err = dds.CalculStorage(params, "mongo035_disk_usage")
+		return
+	case "flexibleengine.dds.health":
+		result, err = dds.CalculHealth(params)
+		return
 	default:
 		return nil, fmt.Errorf("Invalid KEY")
 	}
@@ -307,5 +336,14 @@ func init() {
 		"flexibleengine.elb.traffic.outgoing", "Returns outgoing packets rate.",
 		"flexibleengine.elb.traffic.inbound", "Returns inbound rate.",
 		"flexibleengine.elb.traffic.outbound", "Returns outbound rate.",
-		"flexibleengine.elb.health", "Returns health.")
+		"flexibleengine.elb.health", "Returns health.",
+		"flexibleengine.dds.cpu", "Returns CPU utilization.",
+		"flexibleengine.dds.diskio.read", "Returns disk read throughput.",
+		"flexibleengine.dds.diskio.write", "Returns disk write throughput.",
+		"flexibleengine.dds.iops", "Returns I/O per second.",
+		"flexibleengine.dds.memory", "Returns memory utilization.",
+		"flexibleengine.dds.network.out", "Returns network output throughput.",
+		"flexibleengine.dds.network.in", "Returns network input throughput.",
+		"flexibleengine.dds.storage", "Returns storage utilization.",
+		"flexibleengine.dds.health", "Returns health.")
 }
