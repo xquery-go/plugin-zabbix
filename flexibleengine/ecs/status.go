@@ -117,7 +117,7 @@ func CalculStatus(params []string) (interface{}, error) {
 		}
 	}
 
-	output = "Total ECS instances Active: " + strconv.Itoa(activeVal) + ", Stopped: " + strconv.Itoa(stoppedVal) + ", Error: " + strconv.Itoa(errorVal) + " - "
+	output = "Total ECS servers Active: " + strconv.Itoa(activeVal) + ", Stopped: " + strconv.Itoa(stoppedVal) + ", Error: " + strconv.Itoa(errorVal) + " - "
 	for _, ecs := range listECS.Values {
 		output += "Server: " + ecs.Name + " status: " + ecs.Status + " ;"
 	}

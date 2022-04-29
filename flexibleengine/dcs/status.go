@@ -139,7 +139,7 @@ func CalculStatus(params []string) (interface{}, error) {
 
 	output = "Total DCS instances Creating: " + strconv.Itoa(creatingVal) + ", Createfailed: " + strconv.Itoa(createfailedVal) + ", Running: " + strconv.Itoa(runningVal) + ", Error: " + strconv.Itoa(errorVal) + ", Restarting: " + strconv.Itoa(restartingVal) + ", Extending: " + strconv.Itoa(extendingVal) + ", Restoring: " + strconv.Itoa(restoringVal) + " - "
 	for _, DCS := range listDCS.Values {
-		output += "Server: " + DCS.Name + " status: " + DCS.Status + " ;"
+		output += "Instance: " + DCS.Name + " status: " + DCS.Status + " ;"
 	}
 
 	return output, nil

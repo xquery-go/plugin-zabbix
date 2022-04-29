@@ -124,7 +124,7 @@ func CalculStatus(params []string) (interface{}, error) {
 
 	output = "Total CSS instances Available: " + strconv.Itoa(availableVal) + ", Created: " + strconv.Itoa(createdVal) + ", Unavailable: " + strconv.Itoa(unavailableVal) + " - "
 	for _, CSS := range listCSS.Values {
-		output += "Server: " + CSS.Name + " status: " + status[CSS.Status] + " ;"
+		output += "Instance: " + CSS.Name + " status: " + status[CSS.Status] + " ;"
 	}
 
 	return output, nil

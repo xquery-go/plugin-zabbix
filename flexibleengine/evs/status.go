@@ -98,9 +98,9 @@ func CalculStatus(params []string) (interface{}, error) {
 	rollbackingVal := 0
 	errorrollbackingVal := 0
 
-	for _, server := range responseValue.Volumes {
-		if instanceID != "" && server.Id == instanceID {
-			switch server.Status {
+	for _, volume := range responseValue.Volumes {
+		if instanceID != "" && volume.Id == instanceID {
+			switch volume.Status {
 			case "creating":
 				creatingVal++
 			case "available":
@@ -137,7 +137,7 @@ func CalculStatus(params []string) (interface{}, error) {
 				errorrollbackingVal++
 			}
 		} else if instanceID == "" {
-			switch server.Status {
+			switch volume.Status {
 			case "creating":
 				creatingVal++
 			case "available":
@@ -177,7 +177,7 @@ func CalculStatus(params []string) (interface{}, error) {
 
 	}
 
-	output = "Total EVS instances Creating: " + strconv.Itoa(creatingVal) + ", Available: " + strconv.Itoa(availableVal) + ", In-use: " + strconv.Itoa(inuseVal) +
+	output = "Total EVS volumes Creating: " + strconv.Itoa(creatingVal) + ", Available: " + strconv.Itoa(availableVal) + ", In-use: " + strconv.Itoa(inuseVal) +
 		", Error: " + strconv.Itoa(errorVal) + ", Attaching: " + strconv.Itoa(attachingVal) + ", Detaching: " + strconv.Itoa(deletingVal) + ", Restoring-backup: " + strconv.Itoa(restoringbackupVal) +
 		", Backing-up: " + strconv.Itoa(backingupVal) + ", Error_restoring: " + strconv.Itoa(errorrestoringVal) + ", Uploading: " + strconv.Itoa(uploadingVal) +
 		", Downloading: " + strconv.Itoa(downloadingVal) + ", Extending: " + strconv.Itoa(extendingVal) + ", Error_extending: " + strconv.Itoa(errorextendingVal) +

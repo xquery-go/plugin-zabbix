@@ -13,6 +13,7 @@ import (
 	"zabbix.com/plugins/flexibleengine/evs"
 	"zabbix.com/plugins/flexibleengine/nat"
 	"zabbix.com/plugins/flexibleengine/rds"
+	"zabbix.com/plugins/flexibleengine/sfs"
 )
 
 type Plugin struct {
@@ -311,6 +312,21 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 	case "flexibleengine.dcs.status":
 		result, err = dcs.CalculStatus(params)
 		return
+	case "flexibleengine.sfs.bandwidth.read":
+		result, err = sfs.CalculBandwith(params, "read_bandwidth")
+		return
+	case "flexibleengine.sfs.bandwidth.write":
+		result, err = sfs.CalculBandwith(params, "write_bandwidth")
+		return
+	case "flexibleengine.sfs.bandwidth.disk":
+		result, err = sfs.CalculBandwith(params, "rw_bandwidth")
+		return
+	case "flexibleengine.sfs.sizeusage":
+		result, err = sfs.CalculSizeUsage(params)
+		return
+	case "flexibleengine.sfs.status":
+		result, err = sfs.CalculStatus(params)
+		return
 	default:
 		return nil, fmt.Errorf("Invalid KEY")
 	}
@@ -413,5 +429,10 @@ func init() {
 		"flexibleengine.css.storage.free", "Returns free storage.",
 		"flexibleengine.css.status", "Returns status css.",
 		"flexibleengine.dcs.memory", "Returns memory usage.",
-		"flexibleengine.dcs.status", "Returns status dcs.")
+		"flexibleengine.dcs.status", "Returns status dcs.",
+		"flexibleengine.sfs.bandwidth.read", "Returns read bandwidth.",
+		"flexibleengine.sfs.bandwidth.write", "Returns write bandwidth.",
+		"flexibleengine.sfs.bandwidth.disk", "Returns disk write ops.",
+		"flexibleengine.sfs.sizeusage", "Returns size usage.",
+		"flexibleengine.sfs.status", "Returns status sfs.")
 }
