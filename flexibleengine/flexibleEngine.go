@@ -5,6 +5,7 @@ import (
 
 	"zabbix.com/pkg/plugin"
 	"zabbix.com/plugins/flexibleengine/css"
+	"zabbix.com/plugins/flexibleengine/dcs"
 	"zabbix.com/plugins/flexibleengine/dds"
 	"zabbix.com/plugins/flexibleengine/ecs"
 	"zabbix.com/plugins/flexibleengine/eip"
@@ -304,6 +305,12 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 	case "flexibleengine.css.status":
 		result, err = css.CalculStatus(params)
 		return
+	case "flexibleengine.dcs.memory":
+		result, err = dcs.CalculMemory(params, "memory_usage")
+		return
+	case "flexibleengine.dcs.status":
+		result, err = dcs.CalculStatus(params)
+		return
 	default:
 		return nil, fmt.Errorf("Invalid KEY")
 	}
@@ -404,5 +411,7 @@ func init() {
 		"flexibleengine.css.nodes.ingest", "Returns client nodes.",
 		"flexibleengine.css.storage.total", "Returns total storage.",
 		"flexibleengine.css.storage.free", "Returns free storage.",
-		"flexibleengine.css.status", "Returns status css.")
+		"flexibleengine.css.status", "Returns status css.",
+		"flexibleengine.dcs.memory", "Returns memory usage.",
+		"flexibleengine.dcs.status", "Returns status dcs.")
 }

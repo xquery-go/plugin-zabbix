@@ -56,3 +56,7 @@ After, you must change **MACROS values** in the template for this go to *MACROS 
 Once your template created, you can create a new host in *Configuration > Hosts*. In *Templates menu* choose **Cloud-FlexibleEngine-NAT** template and in *Macros menu*, go to *Inherited and host macros* and modify the value for {$INSTANCE_ID} with your **NAT ID**. 
 
 For template EVS, you must define {$INSTANCE_ID} value which is the ID of the EVS and define {$DISK_NAME} which is the ID of the ECS with the of disk device after like this: 93503d16-53a0-41ec-985f-ae6eee18a3b6-vda
+
+For template DDS, you must define {$INSTANCE_ID} value which is the ID of the DDS and define {$ROLE} which is the role of the DDS (primary or secondary)
+
+For template DCS, you must define {$INSTANCE_ID} value which is the ID of the DCS and define {$ENGINE} which is the engine of the DCS
