@@ -1,4 +1,4 @@
-package eip
+package elb
 
 import (
 	"errors"
@@ -7,20 +7,20 @@ import (
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
 
-func CalculTraffic(params []string, metric string) (result interface{}, err error) {
+func CalculHTTPRequests(params []string, metric string) (result interface{}, err error) {
 	if len(params) != 8 {
 		return nil, errors.New("Wrong parameters.")
 	}
-	eipID := params[3]
-	if eipID == "" {
+	elbID := params[3]
+	if elbID == "" {
 		return nil, fmt.Errorf("Need to specify $INSTANCE_ID option.")
 	}
 
 	dimension := map[string]interface{}{
-		"name":  "publicip_id",
-		"value": eipID,
+		"name":  "lbaas_instance_id",
+		"value": elbID,
 	}
-	namespace := "SYS.VPC"
+	namespace := "SYS.ELB"
 	metricsList := []string{metric}
 
 	value, err := akskrequest.ExecuteProcess(params, dimension, namespace, metricsList)

@@ -6,6 +6,7 @@ import (
 	"zabbix.com/pkg/plugin"
 	"zabbix.com/plugins/flexibleengine/ecs"
 	"zabbix.com/plugins/flexibleengine/eip"
+	"zabbix.com/plugins/flexibleengine/elb"
 	"zabbix.com/plugins/flexibleengine/evs"
 	"zabbix.com/plugins/flexibleengine/nat"
 	"zabbix.com/plugins/flexibleengine/rds"
@@ -169,7 +170,66 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 	case "flexibleengine.eip.traffic.upstream":
 		result, err = eip.CalculTraffic(params, "upstream_bandwidth")
 		return
-
+	case "flexibleengine.elb.backendstatus.anormal":
+		result, err = elb.CalculBackendStatus(params, "m9_abnormal_servers")
+		return
+	case "flexibleengine.elb.backendstatus.normal":
+		result, err = elb.CalculBackendStatus(params, "ma_normal_servers")
+		return
+	case "flexibleengine.elb.connection.concurrent":
+		result, err = elb.CalculConnection(params, "m1_cps")
+		return
+	case "flexibleengine.elb.connection.active":
+		result, err = elb.CalculConnection(params, "m2_act_conn")
+		return
+	case "flexibleengine.elb.connection.inactive":
+		result, err = elb.CalculConnection(params, "m3_inact_conn")
+		return
+	case "flexibleengine.elb.httprequests.layer":
+		result, err = elb.CalculHTTPRequests(params, "mb_l7_qps")
+		return
+	case "flexibleengine.elb.httprequests.2xxcodes":
+		result, err = elb.CalculHTTPRequests(params, "mc_l7_http_2xx")
+		return
+	case "flexibleengine.elb.httprequests.3xxcodes":
+		result, err = elb.CalculHTTPRequests(params, "md_l7_http_3xx")
+		return
+	case "flexibleengine.elb.httprequests.4xxcodes":
+		result, err = elb.CalculHTTPRequests(params, "me_l7_http_4xx")
+		return
+	case "flexibleengine.elb.httprequests.5xxcodes":
+		result, err = elb.CalculHTTPRequests(params, "mf_l7_http_5xx")
+		return
+	case "flexibleengine.elb.httprequests.otherstatus":
+		result, err = elb.CalculHTTPRequests(params, "m10_l7_http_other_status")
+		return
+	case "flexibleengine.elb.httprequests.404":
+		result, err = elb.CalculHTTPRequests(params, "m11_l7_http_404")
+		return
+	case "flexibleengine.elb.httprequests.499":
+		result, err = elb.CalculHTTPRequests(params, "m12_l7_http_499")
+		return
+	case "flexibleengine.elb.httprequests.502":
+		result, err = elb.CalculHTTPRequests(params, "m13_l7_http_502")
+		return
+	case "flexibleengine.elb.httprequests.averagelayer":
+		result, err = elb.CalculHTTPRequests(params, "m14_l7_rt")
+		return
+	case "flexibleengine.elb.traffic.incoming":
+		result, err = elb.CalculTraffic(params, "m5_in_pps")
+		return
+	case "flexibleengine.elb.traffic.outgoing":
+		result, err = elb.CalculTraffic(params, "m6_out_pps")
+		return
+	case "flexibleengine.elb.traffic.inbound":
+		result, err = elb.CalculTraffic(params, "m7_in_Bps")
+		return
+	case "flexibleengine.elb.traffic.outbound":
+		result, err = elb.CalculTraffic(params, "m8_out_Bps")
+		return
+	case "flexibleengine.elb.health":
+		result, err = elb.CalculHealth(params)
+		return
 	default:
 		return nil, fmt.Errorf("Invalid KEY")
 	}
@@ -227,5 +287,25 @@ func init() {
 		"flexibleengine.evs.diskio.iosvctm", "Returns disk I/O service time.",
 		"flexibleengine.evs.status", "Returns status evs.",
 		"flexibleengine.eip.traffic.downstream", "Returns downstream bandwith.",
-		"flexibleengine.eip.traffic.upstream", "Returns upstream bandwith.")
+		"flexibleengine.eip.traffic.upstream", "Returns upstream bandwith.",
+		"flexibleengine.elb.backendstatus.anormal", "Returns unhealthy servers.",
+		"flexibleengine.elb.backendstatus.normal", "Returns healthy servers.",
+		"flexibleengine.elb.connection.concurrent", "Returns concurrent connections.",
+		"flexibleengine.elb.connection.active", "Returns active connections.",
+		"flexibleengine.elb.connection.inactive", "Returns inactive connections.",
+		"flexibleengine.elb.httprequests.layer", "Returns layer-7 query rate.",
+		"flexibleengine.elb.httprequests.2xxcodes", "Returns 2xx status code.",
+		"flexibleengine.elb.httprequests.3xxcodes", "Returns 3xx status code.",
+		"flexibleengine.elb.httprequests.4xxcodes", "Returns 4xx status code.",
+		"flexibleengine.elb.httprequests.5xxcodes", "Returns 5xx status code.",
+		"flexibleengine.elb.httprequests.otherstatus", "Returns other status code.",
+		"flexibleengine.elb.httprequests.404", "Returns 404 status code.",
+		"flexibleengine.elb.httprequests.499", "Returns 499 status code.",
+		"flexibleengine.elb.httprequests.502", "Returns 502 status code.",
+		"flexibleengine.elb.httprequests.averagelayer", "Returns average layer-7 response time.",
+		"flexibleengine.elb.traffic.incoming", "Returns incoming packets rate.",
+		"flexibleengine.elb.traffic.outgoing", "Returns outgoing packets rate.",
+		"flexibleengine.elb.traffic.inbound", "Returns inbound rate.",
+		"flexibleengine.elb.traffic.outbound", "Returns outbound rate.",
+		"flexibleengine.elb.health", "Returns health.")
 }
