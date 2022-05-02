@@ -48,6 +48,7 @@ func ExecuteProcess(params []string, dimension map[string]interface{}, namespace
 	if err != nil {
 		return nil, fmt.Errorf("Error in one parameter for make request ($REGION or $PROJECT_ID)")
 	}
+	fmt.Println(string(response))
 	value, err := CalculateValue(response, filter)
 	if err != nil {
 		return nil, err

@@ -88,7 +88,7 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 		result, err = rds.CalculConnection(params)
 		return
 	case "flexibleengine.rds.cpu":
-		result, err = rds.CalculCPU(params)
+		result, err = rds.CalculCPU(params, "rds001_cpu_util")
 		return
 	case "flexibleengine.rds.diskio.read":
 		result, err = rds.CalculDiskIO(params, "rds049_disk_read_throughput")

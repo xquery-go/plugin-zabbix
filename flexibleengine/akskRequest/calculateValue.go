@@ -35,7 +35,7 @@ func CalculateValue(responseRequest []byte, filter string) (map[string]float64, 
 	allMetricValue := make(map[string]float64)
 	responseValue := Response{}
 	errorMsg := ErrorMsg{}
-	result := -1.0
+	result := 0.0
 	var total float64
 
 	json.Unmarshal(responseRequest, &responseValue)

@@ -305,8 +305,9 @@ func (s *Signer) MakeRequest(projectID string, region string, frame int, period 
 	return body, nil
 }
 
-func (s *Signer) MakeRequestGET(projectID string, region string, service string, url string) ([]byte, error) {
 
+func (s *Signer) MakeRequestGET(projectID string, region string, service string, url string) ([]byte, error) {
+	
 	//Make request with body
 	r, _ := http.NewRequest("GET", url, ioutil.NopCloser(bytes.NewBuffer([]byte(""))))
 
