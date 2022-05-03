@@ -21,6 +21,7 @@ const (
 	BasicDateFormat     = "20060102T150405Z"
 	BasicDateTimeFormat = "20060102"
 	Algorithm           = "SDK-HMAC-SHA256"
+	AlgorithmAWS        = "AWS4-HMAC-SHA256"
 	HeaderXDate         = "X-Sdk-Date"
 	HeaderHost          = "host"
 	HeaderAuthorization = "Authorization"
@@ -170,6 +171,16 @@ func StringToSign(canonicalRequest string, t time.Time, scope string) (string, e
 		Algorithm, time.Now().UTC().Format(BasicDateFormat), scope, hash.Sum(nil)), nil
 }
 
+func StringToSignAWS(canonicalRequest string, t time.Time, scope string) (string, error) {
+	hash := sha256.New()
+	_, err := hash.Write([]byte(canonicalRequest))
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%s\n%s\n%s\n%x",
+		AlgorithmAWS, time.Now().UTC().Format(BasicDateFormat), scope, hash.Sum(nil)), nil
+}
+
 // Create the HWS Signature.
 func SignStringToSign(stringToSign string, signingKey []byte) (string, error) {
 	hm, err := hmacsha256(signingKey, stringToSign)
@@ -182,6 +193,15 @@ func SdkSignKey(date string, region string, serviceType string, secret string) (
 	kregion, err := hmacsha256(kdate, region)
 	kservice, err := hmacsha256(kregion, serviceType)
 	kapp, err := hmacsha256(kservice, "sdk_request")
+	return kapp, err
+}
+
+func SdkSignKeyAWS(date string, region string, serviceType string, secret string) ([]byte, error) {
+	ksecret := "AWS4" + secret
+	kdate, err := hmacsha256([]byte(ksecret), date)
+	kregion, err := hmacsha256(kdate, region)
+	kservice, err := hmacsha256(kregion, "s3")
+	kapp, err := hmacsha256(kservice, "aws4_request")
 	return kapp, err
 }
 
@@ -198,6 +218,10 @@ func HexEncodeSHA256Hash(body []byte) (string, error) {
 // Get the finalized value for the "Authorization" header. The signature parameter is the output from SignStringToSign
 func AuthHeaderValue(signature, accessKey string, signedHeaders []string, scope string) string {
 	return fmt.Sprintf("%s Credential=%s, SignedHeaders=%s, Signature=%s", Algorithm, accessKey+"/"+scope, strings.Join(signedHeaders, ";"), signature)
+}
+
+func AuthHeaderValueAWS(signature, accessKey string, signedHeaders []string, scope string) string {
+	return fmt.Sprintf("%s Credential=%s, SignedHeaders=%s, Signature=%s", AlgorithmAWS, accessKey+"/"+scope, strings.Join(signedHeaders, ";"), signature)
 }
 
 // Signature HWS meta
@@ -240,6 +264,47 @@ func (s *Signer) Sign(r *http.Request, region string, service string) error {
 		return err
 	}
 	authValue := AuthHeaderValue(signature, s.Key, signedHeaders, scope)
+	r.Header.Set(HeaderAuthorization, authValue)
+	return nil
+}
+
+// SignRequest set Authorization header AWS
+func (s *Signer) SignAWS(r *http.Request, region string, service string) error {
+	var t time.Time
+	var err error
+	var dt string
+	serviceType := obcServiceMap[service]
+	scope := time.Now().UTC().Format(BasicDateTimeFormat) + "/" + region + "/" + serviceType + "/aws4_request"
+	if dt = r.Header.Get("X-Amz-Date"); dt != "" {
+		t, err = time.Parse(BasicDateFormat, dt)
+	}
+	if err != nil || dt == "" {
+		t = time.Now().UTC()
+		r.Header.Set("X-Amz-Date", time.Now().UTC().Format(BasicDateFormat))
+	}
+	payloadHash, _ := HexEncodeSHA256Hash(nil)
+	r.Header.Add("X-Amz-Content-Sha256", payloadHash)
+	r.Header.Add("Host", r.Host)
+	signedHeaders := SignedHeaders(r)
+	canonicalRequest, err := CanonicalRequest(r, signedHeaders)
+	if err != nil {
+		return err
+	}
+	stringToSign, err := StringToSignAWS(canonicalRequest, t, scope)
+	if err != nil {
+		return err
+	}
+	signingKey, err := SdkSignKeyAWS(time.Now().UTC().Format(BasicDateTimeFormat), region, serviceType, s.Secret)
+	if err != nil {
+		return err
+	}
+	// signature, err := SignStringToSign(stringToSign, []byte(signingKey))
+	signature, err := SignStringToSign(stringToSign, signingKey)
+
+	if err != nil {
+		return err
+	}
+	authValue := AuthHeaderValueAWS(signature, s.Key, signedHeaders, scope)
 	r.Header.Set(HeaderAuthorization, authValue)
 	return nil
 }
@@ -305,9 +370,8 @@ func (s *Signer) MakeRequest(projectID string, region string, frame int, period 
 	return body, nil
 }
 
-
 func (s *Signer) MakeRequestGET(projectID string, region string, service string, url string) ([]byte, error) {
-	
+
 	//Make request with body
 	r, _ := http.NewRequest("GET", url, ioutil.NopCloser(bytes.NewBuffer([]byte(""))))
 
@@ -317,6 +381,29 @@ func (s *Signer) MakeRequestGET(projectID string, region string, service string,
 	r.Header.Add("X-OpenStack-Nova-API-Version", "2.26")
 	r.Header.Add("X-Project-Id", projectID)
 	s.Sign(r, region, service)
+
+	client := http.DefaultClient
+	resp, err := client.Do(r)
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	return body, nil
+}
+
+func (s *Signer) MakeRequestGETAWS(projectID string, region string, service string, url string) ([]byte, error) {
+
+	//Make request with body
+	r, _ := http.NewRequest("GET", url, ioutil.NopCloser(bytes.NewBuffer([]byte(""))))
+
+	//Add header parameters
+	s.SignAWS(r, region, service)
 
 	client := http.DefaultClient
 	resp, err := client.Do(r)

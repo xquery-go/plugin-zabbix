@@ -12,6 +12,7 @@ import (
 	"zabbix.com/plugins/flexibleengine/elb"
 	"zabbix.com/plugins/flexibleengine/evs"
 	"zabbix.com/plugins/flexibleengine/nat"
+	"zabbix.com/plugins/flexibleengine/obs"
 	"zabbix.com/plugins/flexibleengine/rds"
 	"zabbix.com/plugins/flexibleengine/sfs"
 )
@@ -327,6 +328,27 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 	case "flexibleengine.sfs.status":
 		result, err = sfs.CalculStatus(params)
 		return
+	case "flexibleengine.obs.traffic.download":
+		result, err = obs.CalculTraffic(params, "download_bytes")
+		return
+	case "flexibleengine.obs.traffic.upload":
+		result, err = obs.CalculTraffic(params, "upload_bytes")
+		return
+	case "flexibleengine.obs.requests.get":
+		result, err = obs.CalculRequest(params, "get_request_count")
+		return
+	case "flexibleengine.obs.requests.put":
+		result, err = obs.CalculRequest(params, "put_request_count")
+		return
+	case "flexibleengine.obs.requests.4xxcodes":
+		result, err = obs.CalculRequest(params, "request_count_4xx")
+		return
+	case "flexibleengine.obs.requests.5xxcodes":
+		result, err = obs.CalculRequest(params, "request_count_5xx")
+		return
+	case "flexibleengine.obs.size":
+		result, err = obs.CalculSize(params)
+		return
 	default:
 		return nil, fmt.Errorf("Invalid KEY")
 	}
@@ -434,5 +456,12 @@ func init() {
 		"flexibleengine.sfs.bandwidth.write", "Returns write bandwidth.",
 		"flexibleengine.sfs.bandwidth.disk", "Returns disk write ops.",
 		"flexibleengine.sfs.sizeusage", "Returns size usage.",
-		"flexibleengine.sfs.status", "Returns status sfs.")
+		"flexibleengine.sfs.status", "Returns status sfs.",
+		"flexibleengine.obs.traffic.download", "Returns bytes download.",
+		"flexibleengine.obs.traffic.upload", "Returns bytes upload.",
+		"flexibleengine.obs.requests.get", "Returns get requests.",
+		"flexibleengine.obs.requests.put", "Returns put requests.",
+		"flexibleengine.obs.requests.4xxcodes", "Returns 4xx errors.",
+		"flexibleengine.obs.requests.5xxcodes", "Returns 5xx errors.",
+		"flexibleengine.obs.size", "Returns size of bucket.")
 }
