@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.0</version>
-    <date>2022-05-03T09:59:01Z</date>
+    <date>2022-05-03T10:06:10Z</date>
     <groups>
         <group>
             <name>Templates/Applications</name>
@@ -133,4 +133,40 @@
             </macros>
         </template>
     </templates>
+    <graphs>
+        <graph>
+            <name>Size</name>
+            <graph_items>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <color>1A7C11</color>
+                    <item>
+                        <host>Cloud-FlexibleEngine-OBS</host>
+                        <key>flexibleengine.obs.size[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$REGION},{$BUCKET_NAME}]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Traffic</name>
+            <graph_items>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <color>1A7C11</color>
+                    <item>
+                        <host>Cloud-FlexibleEngine-OBS</host>
+                        <key>flexibleengine.obs.traffic.download[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$BUCKET_NAME},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <color>F63100</color>
+                    <item>
+                        <host>Cloud-FlexibleEngine-OBS</host>
+                        <key>flexibleengine.obs.traffic.upload[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$BUCKET_NAME},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
 </zabbix_export>

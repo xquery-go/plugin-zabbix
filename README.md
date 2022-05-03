@@ -60,3 +60,4 @@ For template EVS, you must define {$INSTANCE_ID} value which is the ID of the EV
 For template DDS, you must define {$INSTANCE_ID} value which is the ID of the DDS and define {$ROLE} which is the role of the DDS (primary or secondary)
 
 For template DCS, you must define {$INSTANCE_ID} value which is the ID of the DCS and define {$ENGINE} which is the engine of the DCS
+For template OBS, you must define {$BUCKET_NAME} value which is the name of the OBS
