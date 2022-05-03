@@ -7,7 +7,9 @@ import (
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
 
+// CheckMetric verify params, set dimension and namespace values
 func CheckMetric(params []string, metric string, dimensionType bool) (result interface{}, err error) {
+	// Verify params
 	if len(params) != 10 {
 		return nil, errors.New("Wrong parameters.")
 	}
@@ -24,6 +26,7 @@ func CheckMetric(params []string, metric string, dimensionType bool) (result int
 		return nil, fmt.Errorf("Need to specify $ENGINE option.")
 	}
 
+	// Create data for request
 	var dimensionName string
 	if rdsEngine == "mysql" {
 		dimensionName = "rds_" + rdsType + "_id"

@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// CalculQuerie calcul RDS querie value
 func CalculQuerie(params []string, metric string) (result interface{}, err error) {
 	rdsEngine := params[9]
 	if rdsEngine == "" {

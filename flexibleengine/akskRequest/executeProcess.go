@@ -5,8 +5,9 @@ import (
 	"strconv"
 )
 
+//ExecuteProcess execute verification, request and get value
 func ExecuteProcess(params []string, dimension map[string]interface{}, namespace string, metricsList []string) (map[string]float64, error) {
-
+	//Verification all mandatory params
 	accessKey := params[0]
 	if accessKey == "" {
 		return nil, fmt.Errorf("Need to specify $ACCESS_KEY option.")
@@ -43,11 +44,12 @@ func ExecuteProcess(params []string, dimension map[string]interface{}, namespace
 	}
 
 	frameInt, _ := strconv.Atoi(frame)
-
+	//Make the request to API
 	response, err := s.MakeRequest(projectID, region, frameInt, period, filter, dimension, namespace, metricsList)
 	if err != nil {
 		return nil, fmt.Errorf("Error in one parameter for make request ($REGION or $PROJECT_ID)")
 	}
+	//Calculate result
 	value, err := CalculateValue(response, filter)
 	if err != nil {
 		return nil, err

@@ -24,7 +24,9 @@ type ErrorMsg struct {
 	} `json:"itemNotFound"`
 }
 
+// CalculStatus calcul SFS size usage
 func CalculSizeUsage(params []string) (interface{}, error) {
+	// Verify params
 	if len(params) != 5 {
 		return nil, errors.New("Wrong parameters.")
 	}
@@ -55,6 +57,7 @@ func CalculSizeUsage(params []string) (interface{}, error) {
 		Key:    accessKey,
 		Secret: secretKey,
 	}
+	//set url request
 	url := "https://sfs." + region + "." + akskrequest.EndpointDomain + "/v2/" + projectID + "/shares/detail"
 
 	response, err := s.MakeRequestGET(projectID, region, "sfs", url)
@@ -63,8 +66,11 @@ func CalculSizeUsage(params []string) (interface{}, error) {
 	}
 	responseValue := ResponseStatus{}
 	errorMsg := ErrorMsg{}
+
+	//Get JSON response in Struct
 	json.Unmarshal(response, &responseValue)
 
+	//If no value => error
 	if responseValue.Shares == nil {
 		json.Unmarshal(response, &errorMsg)
 		return nil, fmt.Errorf(errorMsg.ItemNotFound.Message)

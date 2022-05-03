@@ -33,7 +33,9 @@ type ECS struct {
 	Status string
 }
 
+// CalculStatus calcul ECS status for one or all ECS
 func CalculStatus(params []string) (interface{}, error) {
+	// Verify params
 	if len(params) < 4 {
 		return nil, errors.New("Wrong parameters.")
 	}
@@ -64,6 +66,7 @@ func CalculStatus(params []string) (interface{}, error) {
 		Key:    accessKey,
 		Secret: secretKey,
 	}
+	//Set url request
 	url := "https://ecs." + region + "." + akskrequest.EndpointDomain + "/v2.1/" + projectID + "/servers/detail"
 
 	response, err := s.MakeRequestGET(projectID, region, "ecs", url)
@@ -72,8 +75,10 @@ func CalculStatus(params []string) (interface{}, error) {
 	}
 	responseValue := ResponseStatus{}
 	errorMsg := ErrorMsg{}
+	//Get JSON response in Struct
 	json.Unmarshal(response, &responseValue)
 
+	//If no value => error
 	if responseValue.Servers == nil {
 		json.Unmarshal(response, &errorMsg)
 		return nil, fmt.Errorf(errorMsg.ItemNotFound.Message)

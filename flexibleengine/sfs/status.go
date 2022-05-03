@@ -18,7 +18,9 @@ type SFS struct {
 	Status string
 }
 
+// CalculStatus calcul SFS status for one or all SFS
 func CalculStatus(params []string) (interface{}, error) {
+	// Verify params
 	if len(params) < 4 {
 		return nil, errors.New("Wrong parameters.")
 	}
@@ -49,6 +51,7 @@ func CalculStatus(params []string) (interface{}, error) {
 		Key:    accessKey,
 		Secret: secretKey,
 	}
+	//Set url request
 	url := "https://sfs." + region + "." + akskrequest.EndpointDomain + "/v2/" + projectID + "/shares/detail"
 
 	response, err := s.MakeRequestGET(projectID, region, "sfs", url)
@@ -57,8 +60,10 @@ func CalculStatus(params []string) (interface{}, error) {
 	}
 	responseValue := ResponseStatus{}
 	errorMsg := ErrorMsg{}
+	//Get JSON response in Struct
 	json.Unmarshal(response, &responseValue)
 
+	//If no value => error
 	if responseValue.Shares == nil {
 		json.Unmarshal(response, &errorMsg)
 		return nil, fmt.Errorf(errorMsg.ItemNotFound.Message)

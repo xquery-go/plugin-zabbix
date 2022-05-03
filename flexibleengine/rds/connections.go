@@ -10,7 +10,9 @@ var engineMap = map[string]string{
 	"sqlserver":  "rds054_db_connections_in_use",
 }
 
+// CalculConnection calcul RDS connection value
 func CalculConnection(params []string) (result interface{}, err error) {
+	//Get value engine for post correct metric
 	rdsEngine := params[9]
 	if rdsEngine == "" {
 		return nil, fmt.Errorf("Need to specify $ENGINE option.")

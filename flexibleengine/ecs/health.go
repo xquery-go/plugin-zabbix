@@ -23,7 +23,9 @@ type Response struct {
 	} `json:"server"`
 }
 
+//CalculHealth calcul health of ECS
 func CalculHealth(params []string) (interface{}, error) {
+	//Verify params
 	if len(params) != 5 {
 		return nil, errors.New("Wrong parameters.")
 	}
@@ -54,6 +56,8 @@ func CalculHealth(params []string) (interface{}, error) {
 		Key:    accessKey,
 		Secret: secretKey,
 	}
+
+	//set url request
 	url := "https://ecs." + region + "." + akskrequest.EndpointDomain + "/v2.1/" + projectID + "/servers/" + instanceID
 
 	response, err := s.MakeRequestGET(projectID, region, "ecs", url)
@@ -62,8 +66,11 @@ func CalculHealth(params []string) (interface{}, error) {
 	}
 	responseValue := Response{}
 	errorMsg := ErrorMsg{}
+
+	//Get JSON response in Struct
 	json.Unmarshal(response, &responseValue)
 
+	//If no value => error
 	if responseValue.Server.Status == "" {
 		json.Unmarshal(response, &errorMsg)
 		return nil, fmt.Errorf(errorMsg.ItemNotFound.Message)

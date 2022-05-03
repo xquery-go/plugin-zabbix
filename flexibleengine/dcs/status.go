@@ -33,11 +33,12 @@ type DCS struct {
 	Status string
 }
 
+// CalculStatus calcul DCS status for one or all DCS
 func CalculStatus(params []string) (interface{}, error) {
+	// Verify params
 	if len(params) < 4 {
 		return nil, errors.New("Wrong parameters.")
 	}
-
 	accessKey := params[0]
 	if accessKey == "" {
 		return nil, fmt.Errorf("Need to specify $ACCESS_KEY option.")
@@ -64,6 +65,7 @@ func CalculStatus(params []string) (interface{}, error) {
 		Key:    accessKey,
 		Secret: secretKey,
 	}
+	//Set url request
 	url := "https://dcs." + region + "." + akskrequest.EndpointDomain + "/v1.0/" + projectID + "/instances"
 
 	response, err := s.MakeRequestGET(projectID, region, "dcs", url)
@@ -72,8 +74,11 @@ func CalculStatus(params []string) (interface{}, error) {
 	}
 	responseValue := ResponseStatus{}
 	errorMsg := ErrorMsg{}
+
+	//Get JSON response in Struct
 	json.Unmarshal(response, &responseValue)
 
+	//If no value => error
 	if responseValue.Instances == nil {
 		json.Unmarshal(response, &errorMsg)
 		return nil, fmt.Errorf(errorMsg.ItemNotFound.Message)

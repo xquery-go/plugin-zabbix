@@ -31,6 +31,7 @@ type ErrorMsg struct {
 	RequestID    string `json:"request_id"`
 }
 
+//Calculate value to export in zabbix response
 func CalculateValue(responseRequest []byte, filter string) (map[string]float64, error) {
 	allMetricValue := make(map[string]float64)
 	responseValue := Response{}
@@ -38,15 +39,19 @@ func CalculateValue(responseRequest []byte, filter string) (map[string]float64, 
 	result := 0.0
 	var total float64
 
+	//Get JSON response in Struct
 	json.Unmarshal(responseRequest, &responseValue)
 
+	//If no value => error
 	if responseValue.Metrics == nil {
 		json.Unmarshal(responseRequest, &errorMsg)
 		return nil, fmt.Errorf(strings.Split(errorMsg.ErrorMessage, ", canonical")[0])
 	}
 
+	//Loop on each metric
 	for _, metric := range responseValue.Metrics {
 		total = float64(len(metric.Datapoints))
+		//Get value and calculate depending on filter
 		for _, point := range metric.Datapoints {
 			if filter == "average" {
 				if result == -1 {
@@ -71,7 +76,7 @@ func CalculateValue(responseRequest []byte, filter string) (map[string]float64, 
 		if filter == "average" && total != 0 {
 			result = result / total
 		}
-
+		//Set value for a metric
 		allMetricValue[metric.MetricName] = result
 	}
 

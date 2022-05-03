@@ -171,6 +171,7 @@ func StringToSign(canonicalRequest string, t time.Time, scope string) (string, e
 		Algorithm, time.Now().UTC().Format(BasicDateFormat), scope, hash.Sum(nil)), nil
 }
 
+// Create a "String to Sign" for AWS.
 func StringToSignAWS(canonicalRequest string, t time.Time, scope string) (string, error) {
 	hash := sha256.New()
 	_, err := hash.Write([]byte(canonicalRequest))
@@ -196,6 +197,7 @@ func SdkSignKey(date string, region string, serviceType string, secret string) (
 	return kapp, err
 }
 
+// SdkSignKayAWS create sign key to sign AWS request
 func SdkSignKeyAWS(date string, region string, serviceType string, secret string) ([]byte, error) {
 	ksecret := "AWS4" + secret
 	kdate, err := hmacsha256([]byte(ksecret), date)
@@ -220,6 +222,7 @@ func AuthHeaderValue(signature, accessKey string, signedHeaders []string, scope 
 	return fmt.Sprintf("%s Credential=%s, SignedHeaders=%s, Signature=%s", Algorithm, accessKey+"/"+scope, strings.Join(signedHeaders, ";"), signature)
 }
 
+// Get the finalized value for the "Authorization" header AWS. The signature parameter is the output from SignStringToSign
 func AuthHeaderValueAWS(signature, accessKey string, signedHeaders []string, scope string) string {
 	return fmt.Sprintf("%s Credential=%s, SignedHeaders=%s, Signature=%s", AlgorithmAWS, accessKey+"/"+scope, strings.Join(signedHeaders, ";"), signature)
 }
@@ -268,7 +271,7 @@ func (s *Signer) Sign(r *http.Request, region string, service string) error {
 	return nil
 }
 
-// SignRequest set Authorization header AWS
+// SignRequest set Authorization header for AWS
 func (s *Signer) SignAWS(r *http.Request, region string, service string) error {
 	var t time.Time
 	var err error
@@ -309,11 +312,13 @@ func (s *Signer) SignAWS(r *http.Request, region string, service string) error {
 	return nil
 }
 
+// CreateRequestBody create body for POST request
 func CreateRequestBody(dimensionName map[string]interface{}, metricsList []string, namespace string, filter string, period string, frame int) []byte {
 	var requestBody []byte
 	mectrics := make([]map[string]interface{}, 0)
 	//Make timestamp
 	t := time.Now().UTC()
+	//Interval set by frame in second
 	endTime := t.Unix() * 1000
 	startTime := (t.Add(time.Duration(-frame) * time.Second)).Unix() * 1000
 
@@ -339,6 +344,7 @@ func CreateRequestBody(dimensionName map[string]interface{}, metricsList []strin
 	return requestBody
 }
 
+// MakeRequest create a post request, send it and get response
 func (s *Signer) MakeRequest(projectID string, region string, frame int, period string, filter string, dimension map[string]interface{}, namespace string, metricsList []string) ([]byte, error) {
 	service := "ces"
 
@@ -370,6 +376,7 @@ func (s *Signer) MakeRequest(projectID string, region string, frame int, period 
 	return body, nil
 }
 
+//MakeRequestGET create a get request, send it and get response
 func (s *Signer) MakeRequestGET(projectID string, region string, service string, url string) ([]byte, error) {
 
 	//Make request with body
@@ -397,6 +404,7 @@ func (s *Signer) MakeRequestGET(projectID string, region string, service string,
 	return body, nil
 }
 
+// MakeRequestGETAWS create a get request, send it and get response
 func (s *Signer) MakeRequestGETAWS(projectID string, region string, service string, url string) ([]byte, error) {
 
 	//Make request with body

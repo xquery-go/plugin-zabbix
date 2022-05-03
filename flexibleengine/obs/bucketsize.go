@@ -27,7 +27,9 @@ type ErrorMsg struct {
 	BucketName string   `xml:"BucketName"`
 }
 
+// CalculStatus calcul OBS size usage
 func CalculSize(params []string) (interface{}, error) {
+	// Verify params
 	if len(params) != 5 {
 		return nil, errors.New("Wrong parameters.")
 	}
@@ -58,6 +60,7 @@ func CalculSize(params []string) (interface{}, error) {
 		Key:    accessKey,
 		Secret: secretKey,
 	}
+	//set url request
 	url := "https://" + bucketName + ".oss." + akskrequest.EndpointDomain + "?storageinfo"
 
 	response, err := s.MakeRequestGETAWS(projectID, region, "oss", url)
@@ -67,7 +70,11 @@ func CalculSize(params []string) (interface{}, error) {
 
 	responseValue := GetBucketStorageInfoResult{}
 	errorMsg := ErrorMsg{}
+
+	//Get XML response in Struct
 	err = xml.Unmarshal(response, &responseValue)
+
+	//If err =>  get error
 	if err != nil {
 		xml.Unmarshal(response, &errorMsg)
 		return nil, fmt.Errorf(errorMsg.Message)

@@ -27,7 +27,9 @@ type ErrorMsg struct {
 	} `json:"itemNotFound"`
 }
 
+//CalculHealth calcul health of DDS
 func CalculHealth(params []string) (interface{}, error) {
+	//Verify params
 	if len(params) != 5 {
 		return nil, errors.New("Wrong parameters.")
 	}
@@ -58,6 +60,7 @@ func CalculHealth(params []string) (interface{}, error) {
 		Key:    accessKey,
 		Secret: secretKey,
 	}
+	//set url request
 	url := "https://dds." + region + "." + akskrequest.EndpointDomain + "/v3/" + projectID + "/instances"
 
 	response, err := s.MakeRequestGET(projectID, region, "dds", url)
@@ -66,8 +69,11 @@ func CalculHealth(params []string) (interface{}, error) {
 	}
 	responseValue := Response{}
 	errorMsg := ErrorMsg{}
+
+	//Get JSON response in Struct
 	json.Unmarshal(response, &responseValue)
 
+	//If no value => error
 	if len(responseValue.Instances) == 0 {
 		json.Unmarshal(response, &errorMsg)
 		return nil, fmt.Errorf(errorMsg.ItemNotFound.Message)

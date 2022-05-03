@@ -22,7 +22,9 @@ type ErrorMsg struct {
 	} `json:"itemNotFound"`
 }
 
+//CalculHealth calcul health of ELB
 func CalculHealth(params []string) (interface{}, error) {
+	//Verify params
 	if len(params) != 5 {
 		return nil, errors.New("Wrong parameters.")
 	}
@@ -53,6 +55,8 @@ func CalculHealth(params []string) (interface{}, error) {
 		Key:    accessKey,
 		Secret: secretKey,
 	}
+
+	//set url request
 	url := "https://vpc." + region + "." + akskrequest.EndpointDomain + "/v2.0/lbaas/loadbalancers/" + instanceID
 
 	response, err := s.MakeRequestGET(projectID, region, "elb", url)
@@ -61,8 +65,10 @@ func CalculHealth(params []string) (interface{}, error) {
 	}
 	responseValue := Response{}
 	errorMsg := ErrorMsg{}
+	//Get JSON response in Struct
 	json.Unmarshal(response, &responseValue)
 
+	//If no value => error
 	if responseValue.Loadbalancer.OperatingStatus == "" {
 		json.Unmarshal(response, &errorMsg)
 		return nil, fmt.Errorf(errorMsg.ItemNotFound.Message)

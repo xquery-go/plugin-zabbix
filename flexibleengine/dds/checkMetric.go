@@ -7,7 +7,9 @@ import (
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
 
+// CheckMetric verify params, set dimension and namespace values
 func CheckMetric(params []string, metric string) (result interface{}, err error) {
+	// Verify params
 	if len(params) != 9 {
 		return nil, errors.New("Wrong parameters.")
 	}
@@ -20,6 +22,7 @@ func CheckMetric(params []string, metric string) (result interface{}, err error)
 		return nil, fmt.Errorf("Need to specify $ROLE option (primary or secondary).")
 	}
 
+	// Create data for request
 	dimension := map[string]interface{}{
 		"name":  "mongod_" + ddsRole + "_instance_id",
 		"value": ddsID,
