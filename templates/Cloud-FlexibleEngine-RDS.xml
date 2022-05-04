@@ -318,7 +318,7 @@
                     <color>1A7C11</color>
                     <item>
                         <host>Cloud-FlexibleEngine-RDS</host>
-                        <key>flexibleengine.rds.disk.read[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER},{$TYPE},{$ENGINE}]</key>
+                        <key>flexibleengine.rds.diskio.read[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER},{$TYPE},{$ENGINE}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -326,7 +326,7 @@
                     <color>F63100</color>
                     <item>
                         <host>Cloud-FlexibleEngine-RDS</host>
-                        <key>flexibleengine.rds.disk.write[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER},{$TYPE},{$ENGINE}]</key>
+                        <key>flexibleengine.rds.diskio.write[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER},{$TYPE},{$ENGINE}]</key>
                     </item>
                 </graph_item>
             </graph_items>

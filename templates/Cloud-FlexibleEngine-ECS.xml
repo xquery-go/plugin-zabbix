@@ -331,7 +331,7 @@
                     <color>1A7C11</color>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.disk.read[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.diskio.read[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -340,7 +340,7 @@
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.disk.requestread[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.diskio.requestread[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -349,7 +349,7 @@
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.disk.requestwrite[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.diskio.requestwrite[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -357,7 +357,7 @@
                     <color>A54F10</color>
                     <item>
                         <host>Cloud-FlexibleEngine-ECS</host>
-                        <key>flexibleengine.ecs.disk.write[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.ecs.diskio.write[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     </item>
                 </graph_item>
             </graph_items>
