@@ -7,6 +7,7 @@ import (
 	"zabbix.com/plugins/flexibleengine/css"
 	"zabbix.com/plugins/flexibleengine/dcs"
 	"zabbix.com/plugins/flexibleengine/dds"
+	"zabbix.com/plugins/flexibleengine/discovery"
 	"zabbix.com/plugins/flexibleengine/ecs"
 	"zabbix.com/plugins/flexibleengine/eip"
 	"zabbix.com/plugins/flexibleengine/elb"
@@ -349,6 +350,9 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 	case "flexibleengine.obs.size":
 		result, err = obs.CalculSize(params)
 		return
+	case "flexibleengine.discovery":
+		result, err = discovery.Discovery(params)
+		return
 	default:
 		return nil, fmt.Errorf("Invalid KEY")
 	}
@@ -463,5 +467,6 @@ func init() {
 		"flexibleengine.obs.requests.put", "Returns put requests.",
 		"flexibleengine.obs.requests.4xxcodes", "Returns 4xx errors.",
 		"flexibleengine.obs.requests.5xxcodes", "Returns 5xx errors.",
-		"flexibleengine.obs.size", "Returns size of bucket.")
+		"flexibleengine.obs.size", "Returns size of bucket.",
+		"flexibleengine.discovery", "Returns all FE instances discovery.")
 }

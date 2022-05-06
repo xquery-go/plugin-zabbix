@@ -2,6 +2,7 @@ package evs
 
 import (
 	"encoding/json"
+	"fmt"
 
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
@@ -11,9 +12,14 @@ type ResultDetails struct {
 }
 
 type EVSDetail struct {
-	Id   string   `json:"id"`
-	Name string   `json:"name"`
-	Tags []string `json:"tags"`
+	Id          string            `json:"id"`
+	Name        string            `json:"name"`
+	Attachments []EVSAttachments  `json:"attachments"`
+	Tags        map[string]string `json:"tags"`
+}
+type EVSAttachments struct {
+	ServerId string `json:"server_id"`
+	Device   string `json:"device"`
 }
 
 func ListInstances(accessKey string, secretKey string, region string, projectID string) ([]EVSDetail, error) {
@@ -31,8 +37,12 @@ func ListInstances(accessKey string, secretKey string, region string, projectID 
 	if err != nil {
 		return evsDetails.EVS, err
 	}
+	fmt.Println(string(response))
 
-	json.Unmarshal(response, &evsDetails)
+	err = json.Unmarshal(response, &evsDetails)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 
 	return evsDetails.EVS, nil
 }

@@ -11,9 +11,18 @@ type ResultDetails struct {
 }
 
 type DDSDetail struct {
-	Id   string   `json:"id"`
-	Name string   `json:"name"`
+	Id    string `json:"id"`
+	Name  string `json:"name"`
+	Nodes []struct {
+		Nodes []DDSNodes `json:"nodes"`
+	} `json:"groups"`
 	Tags []string `json:"tags"`
+}
+
+type DDSNodes struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+	Role string `json:"role"`
 }
 
 func ListInstances(accessKey string, secretKey string, region string, projectID string) ([]DDSDetail, error) {
