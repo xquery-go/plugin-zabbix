@@ -12,6 +12,7 @@ import (
 	hostgroup "zabbix.com/plugins/flexibleengine/api/hostGroup"
 	"zabbix.com/plugins/flexibleengine/api/template"
 	"zabbix.com/plugins/flexibleengine/ecs"
+	"zabbix.com/plugins/flexibleengine/nat"
 )
 
 var accessKey string
@@ -41,6 +42,12 @@ func Discovery(params []string) (interface{}, error) {
 		switch object {
 		case "ecs":
 			val, _ := processObjectECS(hostGroupId)
+			if err != nil {
+				return nil, err
+			}
+			result += " " + val
+		case "nat":
+			val, _ := processObjectNAT(hostGroupId)
 			if err != nil {
 				return nil, err
 			}
@@ -118,21 +125,85 @@ func processObjectECS(hostGroupId string) (string, error) {
 		}
 	}
 
-	sort.Sort(sort.Reverse(sort.IntSlice(listIndex)))
-	//fmt.Println("\nlistIndex: ", listIndex)
-	for _, index := range listIndex {
-		listHostsECS = removeIndex(listHostsECS, index)
+	removeExistingObject(listHostsECS, listIndex)
+
+	return "ECS: " + strconv.Itoa(numberECS), nil
+}
+
+func processObjectNAT(hostGroupId string) (string, error) {
+	numberNAT := 0
+
+	templateId, err := template.GetTemplateIdWithName(tokenAPI, urlZabbix, "Cloud-FlexibleEngine-NAT")
+	//fmt.Println("\ntemplateID: ", templateId)
+	if err != nil {
+		return "", err
 	}
-	//fmt.Println("\nlistHostECS: ", listHostsECS)
-	for _, hostECS := range listHostsECS {
-		for _, tag := range hostECS.Tags {
-			if tag.Tag == "project" && tag.Value == projectName {
-				host.DeleteHost(tokenAPI, urlZabbix, hostECS.Id)
+
+	listNAT, err := nat.ListInstances(accessKey, secretKey, region, projectID)
+	if err != nil {
+		return "", err
+	}
+	//fmt.Println("\nlistNAT: ", listNAT)
+
+	if templateId == "-1" && len(listNAT) != 0 {
+		return "Template Cloud-FlexibleEngine-NAT doesn't exists.", nil
+	} else if templateId == "-1" {
+		return "NAT: " + strconv.Itoa(numberNAT), nil
+	}
+
+	numberNAT = len(listNAT)
+
+	listHostsNAT, err := host.GetHostInfo(tokenAPI, urlZabbix, templateId)
+	//fmt.Println("\nlistHostNAT: ", listHostsNAT)
+	listIndex := []int{}
+
+	for _, natFE := range listNAT {
+		find := false
+		for i, hostNAT := range listHostsNAT {
+			for _, macro := range hostNAT.Macros {
+				if macro.Macro == "{$INSTANCE_ID}" && macro.Value == natFE.Id {
+					//fmt.Println("\nfind: ", find, ";natFE: ", natFE, ";hostNAT: ", hostNAT)
+					find = true
+					if hostNAT.Name != "nat_"+natFE.Name+"_"+natFE.Id[0:5]+"_"+region {
+						name := "nat_" + natFE.Name + "_" + natFE.Id[0:5] + "_" + region
+						host.UpdateHostName(tokenAPI, urlZabbix, name, hostNAT.Id)
+					}
+
+					tags := addTags(natFE.Tags, "nat")
+					host.UpdateHostTag(tokenAPI, urlZabbix, tags, hostNAT.Id)
+
+					listIndex = append(listIndex, i)
+				}
 			}
+		}
+		if !find {
+			//fmt.Println("\nfind: ", find, " ;natFE: ", natFE)
+			name := "nat_" + natFE.Name + "_" + natFE.Id[0:5] + "_" + region
+			tags := addTags(natFE.Tags, "nat")
+			macros := addMacros(natFE.Id)
+			_ = host.CreateHost(tokenAPI, urlZabbix, name, host.Group{GroupId: hostGroupId}, host.Template{TemplateId: templateId}, tags, macros)
 		}
 	}
 
-	return "ECS: " + strconv.Itoa(numberECS), nil
+	removeExistingObject(listHostsNAT, listIndex)
+
+	return "NAT: " + strconv.Itoa(numberNAT), nil
+}
+
+func removeExistingObject(listHosts []host.Host, listIndex []int) {
+	sort.Sort(sort.Reverse(sort.IntSlice(listIndex)))
+	//fmt.Println("\nlistIndex: ", listIndex)
+	for _, index := range listIndex {
+		listHosts = removeIndex(listHosts, index)
+	}
+	//fmt.Println("\nlistHostNAT: ", listHosts)
+	for _, hostObject := range listHosts {
+		for _, tag := range hostObject.Tags {
+			if tag.Tag == "project" && tag.Value == projectName {
+				host.DeleteHost(tokenAPI, urlZabbix, hostObject.Id)
+			}
+		}
+	}
 }
 
 func addMacros(id string) []host.Macro {
