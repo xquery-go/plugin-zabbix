@@ -70,21 +70,23 @@ func Discovery(params []string) (interface{}, error) {
 	return result + "time: " + elapsed.String(), nil
 }
 
+//processObjectECS permits to get ECS list to created
 func processObjectECS(hostGroupId string) (string, error) {
 	numberECS := 0
 
+	//Get ID for ECS template
 	templateId, err := template.GetTemplateIdWithName(tokenAPI, urlZabbix, "Cloud-FlexibleEngine-ECS")
-	//fmt.Println("\ntemplateID: ", templateId)
 	if err != nil {
 		return "", err
 	}
 
+	//Get all ECS instances in FE
 	listECS, err := ecs.ListInstances(accessKey, secretKey, region, projectID)
 	if err != nil {
 		return "", err
 	}
-	//fmt.Println("\nlistECS: ", listECS)
 
+	//If there is ECS and no template generate error
 	if templateId == "-1" && len(listECS) != 0 {
 		return "Template Cloud-FlexibleEngine-ECS doesn't exists.", nil
 	} else if templateId == "-1" {
@@ -93,31 +95,34 @@ func processObjectECS(hostGroupId string) (string, error) {
 
 	numberECS = len(listECS)
 
+	//Get existing host with template ID
 	listHostsECS, err := host.GetHostInfo(tokenAPI, urlZabbix, templateId)
-	//fmt.Println("\nlistHostECS: ", listHostsECS)
 	listIndex := []int{}
 
+	//Get all ECS on ECS list FE
 	for _, ecsFE := range listECS {
 		find := false
 		for i, hostECS := range listHostsECS {
 			for _, macro := range hostECS.Macros {
+				//If ECS already exists in Zabbix
 				if macro.Macro == "{$INSTANCE_ID}" && macro.Value == ecsFE.Id {
-					//fmt.Println("\nfind: ", find, ";ecsFE: ", ecsFE, ";hostECS: ", hostECS)
 					find = true
+					//Change his name if necessary
 					if hostECS.Name != "ecs_"+ecsFE.Name+"_"+ecsFE.Id[0:5]+"_"+region {
 						name := "ecs_" + ecsFE.Name + "_" + ecsFE.Id[0:5] + "_" + region
 						host.UpdateHostName(tokenAPI, urlZabbix, name, hostECS.Id)
 					}
-
+					//Change his tags
 					tags := addTags(ecsFE.Tags, "ecs")
 					host.UpdateHostTag(tokenAPI, urlZabbix, tags, hostECS.Id)
-
+					//Append index in index list to remove
 					listIndex = append(listIndex, i)
 				}
 			}
 		}
+		//If ECS not already exists in Zabbix
 		if !find {
-			//fmt.Println("\nfind: ", find, " ;ecsFE: ", ecsFE)
+			//Set his name, tags and macro and create it
 			name := "ecs_" + ecsFE.Name + "_" + ecsFE.Id[0:5] + "_" + region
 			tags := addTags(ecsFE.Tags, "ecs")
 			macros := addMacros(ecsFE.Id)
@@ -125,26 +130,29 @@ func processObjectECS(hostGroupId string) (string, error) {
 		}
 	}
 
+	//Remove ECS object already exists in Zabbix and not in FE
 	removeExistingObject(listHostsECS, listIndex)
 
 	return "ECS: " + strconv.Itoa(numberECS), nil
 }
 
+//processObjectNAT permits to get NAT list to created
 func processObjectNAT(hostGroupId string) (string, error) {
 	numberNAT := 0
 
+	//Get ID for NAT template
 	templateId, err := template.GetTemplateIdWithName(tokenAPI, urlZabbix, "Cloud-FlexibleEngine-NAT")
-	//fmt.Println("\ntemplateID: ", templateId)
 	if err != nil {
 		return "", err
 	}
 
+	//Get all NAT instances in FE
 	listNAT, err := nat.ListInstances(accessKey, secretKey, region, projectID)
 	if err != nil {
 		return "", err
 	}
-	//fmt.Println("\nlistNAT: ", listNAT)
 
+	//If there is NAT and no template generate error
 	if templateId == "-1" && len(listNAT) != 0 {
 		return "Template Cloud-FlexibleEngine-NAT doesn't exists.", nil
 	} else if templateId == "-1" {
@@ -153,31 +161,34 @@ func processObjectNAT(hostGroupId string) (string, error) {
 
 	numberNAT = len(listNAT)
 
+	//Get existing host with template ID
 	listHostsNAT, err := host.GetHostInfo(tokenAPI, urlZabbix, templateId)
-	//fmt.Println("\nlistHostNAT: ", listHostsNAT)
 	listIndex := []int{}
 
+	//Get all NAT on NAT list FE
 	for _, natFE := range listNAT {
 		find := false
 		for i, hostNAT := range listHostsNAT {
 			for _, macro := range hostNAT.Macros {
+				//If NAT already exists in Zabbix
 				if macro.Macro == "{$INSTANCE_ID}" && macro.Value == natFE.Id {
-					//fmt.Println("\nfind: ", find, ";natFE: ", natFE, ";hostNAT: ", hostNAT)
 					find = true
+					//Change his name if necessary
 					if hostNAT.Name != "nat_"+natFE.Name+"_"+natFE.Id[0:5]+"_"+region {
 						name := "nat_" + natFE.Name + "_" + natFE.Id[0:5] + "_" + region
 						host.UpdateHostName(tokenAPI, urlZabbix, name, hostNAT.Id)
 					}
-
+					//Change his tags
 					tags := addTags(natFE.Tags, "nat")
 					host.UpdateHostTag(tokenAPI, urlZabbix, tags, hostNAT.Id)
-
+					//Append index in index list to remove
 					listIndex = append(listIndex, i)
 				}
 			}
 		}
+		//If NAT not already exists in Zabbix
 		if !find {
-			//fmt.Println("\nfind: ", find, " ;natFE: ", natFE)
+			//Set his name, tags and macro and create it
 			name := "nat_" + natFE.Name + "_" + natFE.Id[0:5] + "_" + region
 			tags := addTags(natFE.Tags, "nat")
 			macros := addMacros(natFE.Id)
@@ -185,18 +196,21 @@ func processObjectNAT(hostGroupId string) (string, error) {
 		}
 	}
 
+	//Remove NAT object already exists in Zabbix and not in FE
 	removeExistingObject(listHostsNAT, listIndex)
 
 	return "NAT: " + strconv.Itoa(numberNAT), nil
 }
 
+//removeExistingObject remove objects at particular index
 func removeExistingObject(listHosts []host.Host, listIndex []int) {
+	//Sort slice to get descending index
 	sort.Sort(sort.Reverse(sort.IntSlice(listIndex)))
-	//fmt.Println("\nlistIndex: ", listIndex)
+	//Remove object at the index
 	for _, index := range listIndex {
 		listHosts = removeIndex(listHosts, index)
 	}
-	//fmt.Println("\nlistHostNAT: ", listHosts)
+	//Delete object if it belong to the project
 	for _, hostObject := range listHosts {
 		for _, tag := range hostObject.Tags {
 			if tag.Tag == "project" && tag.Value == projectName {
@@ -206,6 +220,7 @@ func removeExistingObject(listHosts []host.Host, listIndex []int) {
 	}
 }
 
+//addMacros add differents mandatory macros
 func addMacros(id string) []host.Macro {
 	macros := []host.Macro{}
 	macros = append(macros, host.Macro{Macro: "{$ACCESS_KEY}", Value: accessKey, Type: "1"})
@@ -216,6 +231,7 @@ func addMacros(id string) []host.Macro {
 	return macros
 }
 
+//addTags add FE tags and region, project and type tags to the object
 func addTags(tagsECS []string, typeObject string) []host.Tag {
 	tags := []host.Tag{}
 	for _, tag := range tagsECS {
@@ -228,6 +244,7 @@ func addTags(tagsECS []string, typeObject string) []host.Tag {
 	return tags
 }
 
+//removeIndex remove one element of string at an index
 func removeIndex(hosts []host.Host, index int) []host.Host {
 	if len(hosts) != 1 {
 		return append(hosts[:index], hosts[index+1:]...)
@@ -236,6 +253,7 @@ func removeIndex(hosts []host.Host, index int) []host.Host {
 	}
 }
 
+// verifyParams verify that all mandatory params are set
 func verifyParams(params []string) error {
 	if len(params) != 8 {
 		return errors.New("Wrong parameters.")
