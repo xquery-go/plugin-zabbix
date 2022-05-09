@@ -27,7 +27,7 @@
             <items>
                 <item>
                     <name>Memory usage</name>
-                    <key>flexibleengine.dcs.memory[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                    <key>flexibleengine.dcs.memory[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER},{$ENGINE}]</key>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
                     <applications>

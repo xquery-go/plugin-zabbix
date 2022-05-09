@@ -11,9 +11,20 @@ type ResultDetails struct {
 }
 
 type RDSDetail struct {
-	Id   string   `json:"id"`
-	Name string   `json:"name"`
-	Tags []string `json:"tags"`
+	Id        string       `json:"id"`
+	Name      string       `json:"name"`
+	Datastore RDSDatastore `json:"datastore"`
+	Tags      []Tag        `json:"tags"`
+}
+
+type RDSDatastore struct {
+	Type    string `json:"type"`
+	Version string `json:"version"`
+}
+
+type Tag struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }
 
 func ListInstances(accessKey string, secretKey string, region string, projectID string) ([]RDSDetail, error) {

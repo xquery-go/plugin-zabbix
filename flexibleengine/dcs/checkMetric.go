@@ -3,6 +3,7 @@ package dcs
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
@@ -24,9 +25,9 @@ func CheckMetric(params []string, metric string) (result interface{}, err error)
 
 	// Create data for request
 	var dimensionName string
-	if engine == "redis" {
+	if strings.ToLower(engine) == "redis" {
 		dimensionName = "dcs_instance_id"
-	} else if engine == "memcached" {
+	} else if strings.ToLower(engine) == "memcached" {
 		dimensionName = "dcs_memcached_instance_id"
 	}
 

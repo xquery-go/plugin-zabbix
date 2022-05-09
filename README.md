@@ -61,3 +61,21 @@ For template DDS, you must define {$INSTANCE_ID} value which is the ID of the DD
 
 For template DCS, you must define {$INSTANCE_ID} value which is the ID of the DCS and define {$ENGINE} which is the engine of the DCS
 For template OBS, you must define {$BUCKET_NAME} value which is the name of the OBS
+
+## Use discovery plugin
+To begin, create a host group which has the domain name in FE. <br> Import the template "Cloud-FlexibleEngine-Discovery" and all templates of object you want. 
+
+After, create one host by project. For this, create host and give a name. <br>
+Add this host to the host group created previously.<br>
+Link the template "Cloud-FlexibleEngine-Discovery" to this host. <br>
+Add agent interface.<br>
+In tags section, define two tags. The first is to define the name of a project (name: project ; value: NAME_OF_YOUR_PROJECT). The second is to define the region of a projet (name: region ; value: NAME_OF_YOUR_REGION).<br>
+Finally, in macros section, you must define values of each inherited macros : 
+* {$ACCESS_KEY} : The access key to connect to FE
+* {$SECRET_KEY} : The secret key to connect to FE
+* {$DOMAIN_NAME} : The domain name on FE
+* {$PROJECT_ID} : The project ID where elements are stored
+* {$PROJECT_NAME} : The project name where elements are stored
+* {$REGION} : The name of the region
+* {$TOKEN_API} : The token API generate in Zabbix (Administration > General > Token API)
+* {URL_ZABBIX} : The zabbix URL to make request API (example: http://SERVER_IP)

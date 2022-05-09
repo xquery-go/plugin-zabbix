@@ -186,61 +186,6 @@
                     </applications>
                 </item>
                 <item>
-                    <name>Process idle</name>
-                    <key>flexibleengine.ecs.proc.idle[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
-                    <value_type>FLOAT</value_type>
-                    <units>process</units>
-                    <applications>
-                        <application>
-                            <name>Process</name>
-                        </application>
-                    </applications>
-                </item>
-                <item>
-                    <name>Process runnning</name>
-                    <key>flexibleengine.ecs.proc.running[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
-                    <value_type>FLOAT</value_type>
-                    <units>process</units>
-                    <applications>
-                        <application>
-                            <name>Process</name>
-                        </application>
-                    </applications>
-                </item>
-                <item>
-                    <name>Process sleeping</name>
-                    <key>flexibleengine.ecs.proc.sleeping[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
-                    <value_type>FLOAT</value_type>
-                    <units>process</units>
-                    <applications>
-                        <application>
-                            <name>Process</name>
-                        </application>
-                    </applications>
-                </item>
-                <item>
-                    <name>Process total</name>
-                    <key>flexibleengine.ecs.proc.total[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
-                    <value_type>FLOAT</value_type>
-                    <units>process</units>
-                    <applications>
-                        <application>
-                            <name>Process</name>
-                        </application>
-                    </applications>
-                </item>
-                <item>
-                    <name>Process zombie</name>
-                    <key>flexibleengine.ecs.proc.zombie[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
-                    <value_type>FLOAT</value_type>
-                    <units>process</units>
-                    <applications>
-                        <application>
-                            <name>Process</name>
-                        </application>
-                    </applications>
-                </item>
-                <item>
                     <name>Status</name>
                     <key>flexibleengine.ecs.status[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$REGION},{$INSTANCE_ID}]</key>
                     <trends>0</trends>

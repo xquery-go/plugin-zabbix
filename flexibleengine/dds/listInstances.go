@@ -11,9 +11,9 @@ type ResultDetails struct {
 }
 
 type DDSDetail struct {
-	Id    string `json:"id"`
-	Name  string `json:"name"`
-	Nodes []struct {
+	Id     string `json:"id"`
+	Name   string `json:"name"`
+	Groups []struct {
 		Nodes []DDSNodes `json:"nodes"`
 	} `json:"groups"`
 	Tags []string `json:"tags"`

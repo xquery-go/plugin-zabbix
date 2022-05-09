@@ -3,6 +3,7 @@ package dds
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	akskrequest "zabbix.com/plugins/flexibleengine/akskRequest"
 )
@@ -17,7 +18,7 @@ func CheckMetric(params []string, metric string) (result interface{}, err error)
 	if ddsID == "" {
 		return nil, fmt.Errorf("Need to specify $INSTANCE_ID option.")
 	}
-	ddsRole := params[8]
+	ddsRole := strings.ToLower(params[8])
 	if ddsRole == "" {
 		return nil, fmt.Errorf("Need to specify $ROLE option (primary or secondary).")
 	}
