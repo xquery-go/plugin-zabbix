@@ -11,9 +11,14 @@ type ResultDetails struct {
 }
 
 type CSSDetail struct {
-	Id   string   `json:"id"`
-	Name string   `json:"name"`
-	Tags []string `json:"tags"`
+	Id   string `json:"id"`
+	Name string `json:"name"`
+	Tags []Tag  `json:"tags"`
+}
+
+type Tag struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }
 
 func ListInstances(accessKey string, secretKey string, region string, projectID string) ([]CSSDetail, error) {

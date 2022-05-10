@@ -50,6 +50,7 @@ func Discovery(params []string) (interface{}, error) {
 	}
 	result := "OK"
 
+	//Objects list
 	objects := []string{"css", "dcs", "dds", "ecs", "eip", "elb", "evs", "nat", "obs", "rds", "sfs"}
 	hostGroupId, _ := hostgroup.GetHostGroupIdWithName(tokenAPI, urlZabbix, domainName)
 	if err != nil {
@@ -192,25 +193,30 @@ func Discovery(params []string) (interface{}, error) {
 			result += " " + val
 		}
 	}
-	//listOBS, _ := obs.ListInstances(accessKey, secretKey, region, projectID)
 	t := time.Now()
 	elapsed := t.Sub(start)
 	return result + " time: " + elapsed.String(), nil
 }
 
+//parseCSSObjectToGenericObject permits to parse CSS object to generic object
 func parseCSSObjectToGenericObject(listCSS []css.CSSDetail) []genericObject {
 	listObject := []genericObject{}
 	for _, css := range listCSS {
+		tags := []string{}
+		for _, tag := range css.Tags {
+			tags = append(tags, tag.Key+"="+tag.Value)
+		}
 		object := genericObject{
 			Id:   css.Id,
 			Name: css.Name,
-			Tags: css.Tags,
+			Tags: tags,
 		}
 		listObject = append(listObject, object)
 	}
 	return listObject
 }
 
+//parseECSObjectToGenericObject permits to parse ECS object to generic object
 func parseECSObjectToGenericObject(listECS []ecs.ECSDetail) []genericObject {
 	listObject := []genericObject{}
 	for _, ecs := range listECS {
@@ -224,6 +230,7 @@ func parseECSObjectToGenericObject(listECS []ecs.ECSDetail) []genericObject {
 	return listObject
 }
 
+//parseNATObjectToGenericObject permits to parse NAT object to generic object
 func parseNATObjectToGenericObject(listNAT []nat.NATDetail) []genericObject {
 	listObject := []genericObject{}
 	for _, nat := range listNAT {
@@ -237,6 +244,7 @@ func parseNATObjectToGenericObject(listNAT []nat.NATDetail) []genericObject {
 	return listObject
 }
 
+//parseEIPObjectToGenericObject permits to parse EIP object to generic object
 func parseEIPObjectToGenericObject(listEIP []eip.EIPDetail) []genericObject {
 	listObject := []genericObject{}
 	for _, eip := range listEIP {
@@ -250,6 +258,7 @@ func parseEIPObjectToGenericObject(listEIP []eip.EIPDetail) []genericObject {
 	return listObject
 }
 
+//parseELBObjectToGenericObject permits to parse ELB object to generic object
 func parseELBObjectToGenericObject(listELB []elb.ELBDetail) []genericObject {
 	listObject := []genericObject{}
 	for _, elb := range listELB {
@@ -263,6 +272,7 @@ func parseELBObjectToGenericObject(listELB []elb.ELBDetail) []genericObject {
 	return listObject
 }
 
+//parseSFSObjectToGenericObject permits to parse SFS object to generic object
 func parseSFSObjectToGenericObject(listSFS []sfs.SFSDetail) []genericObject {
 	listObject := []genericObject{}
 	for _, sfs := range listSFS {
@@ -276,6 +286,7 @@ func parseSFSObjectToGenericObject(listSFS []sfs.SFSDetail) []genericObject {
 	return listObject
 }
 
+//parseDCSObjectToGenericObject permits to parse DCS object to generic object
 func parseDCSObjectToGenericObject(listDCS []dcs.DCSDetail) []genericObject {
 	listObject := []genericObject{}
 	for _, dcs := range listDCS {
@@ -290,6 +301,7 @@ func parseDCSObjectToGenericObject(listDCS []dcs.DCSDetail) []genericObject {
 	return listObject
 }
 
+//parseDDSObjectToGenericObject permits to parse DDS object to generic object
 func parseDDSObjectToGenericObject(listDDS []dds.DDSDetail) []genericObject {
 	listObject := []genericObject{}
 	for _, dds := range listDDS {
@@ -309,6 +321,7 @@ func parseDDSObjectToGenericObject(listDDS []dds.DDSDetail) []genericObject {
 	return listObject
 }
 
+//parseEVSObjectToGenericObject permits to parse EVS object to generic object
 func parseEVSObjectToGenericObject(listEVS []evs.EVSDetail) []genericObject {
 	listObject := []genericObject{}
 	for _, evs := range listEVS {
@@ -331,6 +344,7 @@ func parseEVSObjectToGenericObject(listEVS []evs.EVSDetail) []genericObject {
 	return listObject
 }
 
+//parseRDSObjectToGenericObject permits to parse RDS object to generic object
 func parseRDSObjectToGenericObject(listRDS []rds.RDSDetail) []genericObject {
 	listObject := []genericObject{}
 	for _, rds := range listRDS {
@@ -350,6 +364,7 @@ func parseRDSObjectToGenericObject(listRDS []rds.RDSDetail) []genericObject {
 	return listObject
 }
 
+//parseOBSObjectToGenericObject permits to parse OBS object to generic object
 func parseOBSObjectToGenericObject(listOBS []obs.BucketDetail) []genericObject {
 	listObject := []genericObject{}
 	for _, obs := range listOBS {

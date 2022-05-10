@@ -103,7 +103,7 @@
                     <color>1A7C11</color>
                     <item>
                         <host>Cloud-FlexibleEngine-DCS</host>
-                        <key>flexibleengine.dcs.memory[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
+                        <key>flexibleengine.dcs.memory[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER},{$ENGINE}]</key>
                     </item>
                 </graph_item>
             </graph_items>

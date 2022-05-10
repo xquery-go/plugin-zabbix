@@ -11,10 +11,10 @@ type ResultDetails struct {
 }
 
 type DCSDetail struct {
-	Id     string   `json:"instance_id"`
-	Engine string   `json:"engine"`
-	Name   string   `json:"name"`
-	Tags   []string `json:"tags"`
+	Id     string `json:"instance_id"`
+	Engine string `json:"engine"`
+	Name   string `json:"name"`
+	Tags   []string
 }
 
 func ListInstances(accessKey string, secretKey string, region string, projectID string) ([]DCSDetail, error) {
