@@ -79,3 +79,14 @@ Finally, in macros section, you must define values of each inherited macros :
 * {$REGION} : The name of the region
 * {$TOKEN_API} : The token API generate in Zabbix (Administration > General > Token API)
 * {URL_ZABBIX} : The zabbix URL to make request API (example: http://SERVER_IP)
+
+To use discovery plugin, it's necessary to increase the Timeout number in the configuration files of server and agent2. The files are located in /etc/zabbix. Modify the Timeout parameter with value 30 in both files. <br>
+Timeout=30
+
+Finally, restart both services:
+```sh
+systemctl restart zabbix-server.service
+systemctl restart rabbix-agent2.service
+```
+
+If you don't make this change, your discovery item will get this error : Timeout occurred while gathering data

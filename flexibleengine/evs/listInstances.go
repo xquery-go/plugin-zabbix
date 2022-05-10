@@ -37,7 +37,6 @@ func ListInstances(accessKey string, secretKey string, region string, projectID 
 	if err != nil {
 		return evsDetails.EVS, err
 	}
-	fmt.Println(string(response))
 
 	err = json.Unmarshal(response, &evsDetails)
 	if err != nil {
