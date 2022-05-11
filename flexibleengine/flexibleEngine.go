@@ -33,10 +33,10 @@ func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider)
 		result, err = ecs.CalculCPU(params, "cpu_util")
 		return
 	case "flexibleengine.ecs.disk.free":
-		result, err = ecs.CalculDisk(params, "SlAsH_disk_free")
+		result, err = ecs.CalculDisk(params, "mountPointPrefix_disk_free")
 		return
 	case "flexibleengine.ecs.disk.used":
-		result, err = ecs.CalculDisk(params, "SlAsH_disk_usedPercent")
+		result, err = ecs.CalculDisk(params, "mountPointPrefix_disk_usedPercent")
 		return
 	case "flexibleengine.ecs.diskio.read":
 		result, err = ecs.CalculDiskIO(params, "disk_read_bytes_rate")
