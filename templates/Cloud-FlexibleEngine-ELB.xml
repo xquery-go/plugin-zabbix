@@ -176,7 +176,7 @@
                     <name>Average layer</name>
                     <key>flexibleengine.elb.httprequests.averagelayer[{$ACCESS_KEY},{$SECRET_KEY},{$PROJECT_ID},{$INSTANCE_ID},{$REGION},{$FRAME},{$PERIOD},{$FILTER}]</key>
                     <value_type>FLOAT</value_type>
-                    <units>c/s</units>
+                    <units>ms</units>
                     <applications>
                         <application>
                             <name>HttpRequests</name>

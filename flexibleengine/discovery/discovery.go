@@ -34,12 +34,13 @@ var urlZabbix string
 var domainName string
 
 type genericObject struct {
-	Id     string   `json:"id"`
-	Name   string   `json:"name"`
-	Tags   []string `json:"tags"`
-	Engine string   `json:"engine"`
-	Role   string   `json:"role"`
-	Type   string   `json:"type"`
+	Id       string   `json:"id"`
+	Name     string   `json:"name"`
+	Tags     []string `json:"tags"`
+	Engine   string   `json:"engine"`
+	Role     string   `json:"role"`
+	Type     string   `json:"type"`
+	DiskName string   `json:"disk_name"`
 }
 
 func Discovery(params []string) (interface{}, error) {
@@ -327,15 +328,16 @@ func parseEVSObjectToGenericObject(listEVS []evs.EVSDetail) []genericObject {
 	for _, evs := range listEVS {
 		for _, attachments := range evs.Attachments {
 			tags := []string{}
-			id := attachments.ServerId + "-" + strings.Split(attachments.Device, "/dev/")[1]
+			diskName := attachments.ServerId + "-" + strings.Split(attachments.Device, "/dev/")[1]
 			for key, value := range evs.Tags {
 				tags = append(tags, key+"="+value)
 			}
 
 			object := genericObject{
-				Id:   id,
-				Name: evs.Name,
-				Tags: tags,
+				Id:       evs.Id,
+				DiskName: diskName,
+				Name:     evs.Name,
+				Tags:     tags,
 			}
 			listObject = append(listObject, object)
 
@@ -406,7 +408,7 @@ func processObject(hostGroupId string, listObject []genericObject, typeObject st
 		for i, hostZabbix := range listHosts {
 			for _, macro := range hostZabbix.Macros {
 				//If instance already exists in Zabbix
-				if (macro.Macro == "{$INSTANCE_ID}" && macro.Value == objectFE.Id) || (macro.Macro == "{$DISK_NAME}" && macro.Value == objectFE.Id) || (macro.Macro == "{$BUCKET_NAME}" && macro.Value == objectFE.Id) {
+				if (macro.Macro == "{$INSTANCE_ID}" && macro.Value == objectFE.Id) || (macro.Macro == "{$BUCKET_NAME}" && macro.Value == objectFE.Id) {
 					find = true
 					//Change his name if necessary
 					if hostZabbix.Name != typeObject+"_"+objectFE.Name+"_"+objectFE.Id[0:5]+"_"+region {
@@ -434,6 +436,8 @@ func processObject(hostGroupId string, listObject []genericObject, typeObject st
 			} else if typeObject == "RDS" {
 				macros = append(macros, host.Macro{Macro: "{$ENGINE}", Value: objectFE.Engine, Type: "0"})
 				macros = append(macros, host.Macro{Macro: "{$TYPE}", Value: objectFE.Type, Type: "0"})
+			} else if typeObject == "EVS" {
+				macros = append(macros, host.Macro{Macro: "{$DISK_NAME}", Value: objectFE.DiskName, Type: "0"})
 			}
 			_ = host.CreateHost(tokenAPI, urlZabbix, name, host.Group{GroupId: hostGroupId}, host.Template{TemplateId: templateId}, tags, macros)
 		}
@@ -467,9 +471,7 @@ func removeExistingObject(listHosts []host.Host, listIndex []int) {
 func addMacros(id string, typeObject string) []host.Macro {
 	macros := []host.Macro{}
 	macros = append(macros, host.Macro{Macro: "{$ACCESS_KEY}", Value: accessKey, Type: "1"})
-	if typeObject == "EVS" {
-		macros = append(macros, host.Macro{Macro: "{$DISK_NAME}", Value: id, Type: "0"})
-	} else if typeObject == "OBS" {
+	if typeObject == "OBS" {
 		macros = append(macros, host.Macro{Macro: "{$BUCKET_NAME}", Value: id, Type: "0"})
 	} else {
 		macros = append(macros, host.Macro{Macro: "{$INSTANCE_ID}", Value: id, Type: "0"})
