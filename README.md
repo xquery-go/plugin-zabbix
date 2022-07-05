@@ -11,7 +11,7 @@ git clone https://git.zabbix.com/scm/zbx/zabbix.git --depth 1 zabbix-agent2
 
 After, clone this repo :
 ```sh
-git clone https://gitlab.ypsi.cloud/melissa.bertin/plugin-zabbix-fe.git
+git clone https://github.com/YPSI-SAS/plugin-zabbix-fe.git
 ```
 
 Finally, copy the directory flexibleengine into the **zabbix-agent2** directory:
