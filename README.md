@@ -35,10 +35,71 @@ Run this command to build the agent with the new plugin:
 ```sh
 ./bootstrap.sh; ./configure --enable-agent2 --enable-static; make
 ```
+If you are errors, try to install differents packages:
+```sh
+sudo apt install automake autoconf pcre* -y
+sudo apt-get install libpcre3-dev
+```
+
+You can try the Zabbix binary generate in zabbix-agent2/src/go/bin
+KEY correspond to a key value defined in method Export in flexibleengine/flexibleEngine.go
+param1 correspond to the first parameter for plugin
+```sh
+<zabbix-source>/src/go/bin/zabbix_agent2 -t KEY[param1]
+```
+Example, change all parameters with your own:
+```sh
+<zabbix-source>/src/go/bin/zabbix_agent2 -t flexibleengine.ecs.cpu[ACCESS_KEY,SECRET_KEY,PROJECT_ID,INSTANCE_ID,REGION,FRAME,PERIOD,FILTER]
+```
+
+## First construction of agent 2
+If the zabbix-agent2 isn't already running use this commands. On CentOS7, the Zabbix Agent2 is not installed.  </br>
+First, create the service systemd to run agent2 in daemon. 
+```sh
+nano /etc/systemd/system/zabbix-agent2.service
+```
+Write this information in the file:
+```
+[Unit]
+Description=Zabbix Agent 2
+After=syslog.target
+After=network.target
+
+[Service]
+Environment="CONFFILE=/etc/zabbix/zabbix_agent2.conf"
+EnvironmentFile=-/etc/sysconfig/zabbix-agent2
+Type=simple
+Restart=on-failure
+PIDFile=/run/zabbix/zabbix_agent2.pid
+KillMode=control-group
+ExecStart=/usr/sbin/zabbix_agent2 -c $CONFFILE
+ExecStop=/bin/kill -SIGTERM $MAINPID
+RestartSec=10s
+User=zabbix
+Group=zabbix
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Next, copy the file zabbix_agent2.conf in the direcroty /etc/zabbix.
+```sh
+cp <zabbix-source>/src/go/conf/zabbix_agent2.conf /etc/zabbix/
+```
+
+Finally, add the binary zabbix_agent2 in the directory /usr/sbin
+```sh
+cp <zabbix-source>/src/go/bin/zabbix_agent2 /usr/sbin/
+```
+
+You can't run the both agents in the same time because they listen on the same port. To keep the both agents running, change the listen port for one agent in his confid file in /etc/zabbix. 
+* Config agent1: /etc/zabbix/zabbix_agentd.conf
+* Config agent2: /etc/zabbix/zabbix_agent2.conf
+
+Modify the parameter ListenPort, remove the # in the beginning of the line and restart the agent. </br>
+After that, the both agents must be functional and the plugin flexibleengine are accessible in Zabbix. 
 
 ## Modify agent 2
-
-If the zabbix-agent2 isn't already running use this doc: https://docs.google.com/document/d/1Yvqh_r_nXwbnwLPYnbtdnJ5UOofiR6f5GvoOOrUdjJM/edit?usp=sharing
 If the zabbix-agent2 is already running make this three commands to modify agent2:
 ```sh
 systemctl stop zabbix-agent2
