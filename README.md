@@ -1,6 +1,6 @@
 # Plugin-Zabbix-FE
 
-## Zabbix version 5.0
+## Zabbix version 5.0 - 6.0
 ## Add plugin into Zabbix
 
 First, clone the repo of Zabbix :
